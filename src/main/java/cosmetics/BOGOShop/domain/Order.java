@@ -18,14 +18,14 @@ public class Order {
     @Column(name = "order_id")
     private long id;
 
-    @ManyToOne //다대일
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id") //fk
     private Member member;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 
