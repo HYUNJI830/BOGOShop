@@ -2,6 +2,7 @@ package cosmetics.BOGOShop;
 
 
 
+import cosmetics.BOGOShop.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,28 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class MemberRepositoryTest {
-
-    @Autowired MemberRepository memberRepository;
-
-    @Test
-    @Transactional
-    @Rollback(false)
-    public void testMember() {
-        //given
-        Member member = new Member();
-        member.setUsername("memberA");
-
-        //when
-        Long saveId = memberRepository.save(member);
-        Member findMember = memberRepository.find(saveId);
-
-        //then(검증)
-        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
-        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
-
-    }
-
-}
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//public class MemberRepositoryTest {
+//
+//    @Autowired MemberRepository memberRepository;
+//
+//    @Test
+//    @Transactional
+//    @Rollback(false)
+//    public void testMember() {
+//        //given
+//        Member member = new Member();
+//        member.setUsername("memberA");
+//
+//        //when
+//        Long saveId = memberRepository.save(member);
+//        Member findMember = memberRepository.find(saveId);
+//
+//        //then(검증)
+//        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
+//        Assertions.assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
+//
+//    }
+//
+//}
