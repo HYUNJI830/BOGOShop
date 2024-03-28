@@ -9,4 +9,8 @@ import lombok.Setter;
 @DiscriminatorValue("H")
 @Getter @Setter
 public class HairCare extends Item {
+
+    private String hairCategory;
+    private String brandName;
+
 }

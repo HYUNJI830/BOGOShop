@@ -9,4 +9,6 @@ import lombok.Setter;
 @DiscriminatorValue("S")
 @Getter @Setter
 public class SkinCare extends Item {
+    private String SkinCategory;
+    private String brandName;
 }
