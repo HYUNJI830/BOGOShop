@@ -8,9 +8,12 @@ import cosmetics.BOGOShop.domain.item.Item;
 import cosmetics.BOGOShop.repository.ItemRepository;
 import cosmetics.BOGOShop.repository.MemberRepository;
 import cosmetics.BOGOShop.repository.OrderRepository;
+import cosmetics.BOGOShop.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -58,10 +61,10 @@ public class OrderService {
         //주문 취소
         order.cancel();
     }
-//    /**
-//     * 주문 검색
-//     */
-//    public list<Order> findOrders(OrderSearch orderSearch){
-//        return orderRepository.findAll(orderSearch);
-//    }
+    /**
+     * 주문 검색
+     */
+    public List<Order> findOrders(OrderSearch orderSearch){
+        return orderRepository.findAll(orderSearch);
+    }
 }
