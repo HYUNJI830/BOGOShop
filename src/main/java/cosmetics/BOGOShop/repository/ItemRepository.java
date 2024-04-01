@@ -15,9 +15,9 @@ public class ItemRepository {
 
     public void save(Item item){
         if(item.getId() == null){
-            em.persist(item);
+            em.persist(item); // 새로운 엔티티로 판단, 영속화
         }else {
-            em.merge(item); //강제 업데이트
+            em.merge(item); // 병합 (준영속 > 영속)
         }
     }
 

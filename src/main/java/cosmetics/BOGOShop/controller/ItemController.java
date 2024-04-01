@@ -66,19 +66,21 @@ public class ItemController {
         return "items/updateItemForm";
     }
     /**
-     * 상품 수정
+     * 상품 수정, 권장 코드
      */
     @PostMapping(value = "/items/{itemsId}/edit")
-    public String updateItem(@ModelAttribute("form")MakeupForm form){
-        Makeup makeup = new Makeup();
-        makeup.setId(form.getId());
-        makeup.setName(form.getName());
-        makeup.setPrice(form.getPrice());
-        makeup.setStockQuantity(form.getStockQuantity());
-        makeup.setMakeupCategory(form.getMakeupCategory());
-        makeup.setBrandName(form.getBrandName());
+    public String updateItem(@PathVariable Long itemsId,@ModelAttribute("form")MakeupForm form){
 
-        itemService.saveItem(makeup);
+        itemService.updateItem(itemsId,form.getName(), form.getPrice(), form.getStockQuantity());
+//        Makeup makeup = new Makeup();
+//        makeup.setId(form.getId());
+//        makeup.setName(form.getName());
+//        makeup.setPrice(form.getPrice());
+//        makeup.setStockQuantity(form.getStockQuantity());
+//        makeup.setMakeupCategory(form.getMakeupCategory());
+//        makeup.setBrandName(form.getBrandName());
+
+        //itemService.saveItem(makeup);
         return "redirect:/items";
     }
 
