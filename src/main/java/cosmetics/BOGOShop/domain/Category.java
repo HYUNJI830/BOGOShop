@@ -28,7 +28,7 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "makeup" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
     private List<Makeup> makeups = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
