@@ -19,12 +19,18 @@ public  abstract class Item {
     @Column(name = "item_id")
     private Long id;
 
-    private String name;
-    private int price;
-    private int stockQuantity; //재고수량
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id") //fk
+    private Category category;
 
-    @ManyToMany(mappedBy = "items")
-    private List<Category> categories = new ArrayList<>();
+    @Column(name = "item_name")
+    private String name;
+
+    @Column(name = "item_price")
+    private int price;
+
+    @Column(name = "item_Quantity")
+    private int stockQuantity; //재고수량
 
     //==비즈니스로직==//
 

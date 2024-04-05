@@ -16,8 +16,8 @@ public class Delivery {
     private Order order;
 
     @Embedded
-    private Address address;
+    private Address address; //배송 주소
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status; //READY,COMP
+    private DeliveryStatus status; //배송 상태 [READY,COMP]
 }

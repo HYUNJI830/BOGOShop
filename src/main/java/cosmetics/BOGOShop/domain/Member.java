@@ -15,12 +15,16 @@ public class Member {
 
     @Id @GeneratedValue
     @Column(name="member_id")
-    private Long id;
+    private Long id; //회원 아이디
 
-    private String name;
+    private String name; //이름
+
+    private Long age; //나이
+
+    private String phone; //연락처
 
     @Embedded
-    private Address address;
+    private Address address; //주소
 
     @OneToMany(mappedBy = "member") //일대다
     private List<Order> orders = new ArrayList<>();

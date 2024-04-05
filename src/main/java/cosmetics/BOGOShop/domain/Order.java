@@ -16,23 +16,23 @@ public class Order {
 
     @Id @GeneratedValue
     @Column(name = "order_id")
-    private Long id;
+    private Long id;//주문 아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id") //fk
-    private Member member; //주문회원
+    private Member member; //회원 아이디
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="delivery_id")//fk
+    private Delivery delivery;//배송 아이디
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="delivery_id")
-    private Delivery delivery;//배송정보
-
-    private LocalDateTime orderDate;//주문시간
+    private LocalDateTime orderDate;//주문 일자
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status; //주문상태 [ORDER,CANCEL]
+    private OrderStatus status; //주문 상태 [ORDER,CANCEL]
 
     //==연관관계 메서드==//
     public void setMember(Member member){
