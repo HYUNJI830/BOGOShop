@@ -42,7 +42,7 @@ public class MemberController {
        return "redirect:/";
     }
 
-    @GetMapping("/mebers")
+    @GetMapping("/members")
     public String List(Model model){
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);

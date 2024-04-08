@@ -16,16 +16,10 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    //@AllArgsConstructor 생성자가 아래 코드를 대신함
-    //    @Autowired
-    //    public MemberService(MemberRepository memberRepository) {
-    //        this.memberRepository = memberRepository;
-    //    }
-
-
     /**
      * * 회원가입
      */
+    @Transactional
     public Long join(Member member){
         validateDuplicateMember(member);//중복 회원 검증
         memberRepository.save(member);

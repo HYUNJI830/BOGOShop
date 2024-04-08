@@ -1,12 +1,21 @@
 package cosmetics.BOGOShop;
 
 import com.fasterxml.jackson.datatype.hibernate5.jakarta.Hibernate5JakartaModule;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+
+@Configuration
 @SpringBootApplication
 public class BogoShopApplication {
+
+	@PersistenceContext
+	private EntityManager em;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BogoShopApplication.class, args);
@@ -19,4 +28,8 @@ public class BogoShopApplication {
 		return hibernate5JakartaModule;
 	}
 
+	@Bean
+	public JPAQueryFactory jpaQueryFactory(EntityManager em) {
+		return new JPAQueryFactory(em);
+	}
 }
