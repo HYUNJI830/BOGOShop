@@ -62,6 +62,17 @@ public class Order {
         order.setOrderDate(LocalDateTime.now());
         return order;
     }
+    public static Order createOrders(Member member, Delivery delivery, List<OrderItem> orderItems){
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for(OrderItem orderItem : orderItems){
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
 
     //==비즈니스 로직==//
     /**

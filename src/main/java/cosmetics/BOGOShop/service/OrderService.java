@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,6 +50,36 @@ public class OrderService {
 
         return order.getId();
     }
+
+    @Transactional
+    public Long orders(Long memberId, List<Long> itemIds,List<Integer> counts){
+
+        //엔티티 조회
+        Member member = memberRepository.findOne(memberId);
+
+        //배송정보 생성
+        Delivery deliverys = new Delivery();
+        deliverys.setAddress(member.getAddress());
+
+        //주문상품 생성
+        List<Item> items = itemRepository.findAllById(itemIds);
+        List<Integer> prices = new ArrayList<>();
+
+        for (Item item : items) {
+            prices.add(item.getPrice());
+        }
+        List<OrderItem> orderItems = OrderItem.createOrderItems(items,prices,counts);
+
+        //주문 생성
+        Order order = Order.createOrders(member,deliverys,orderItems);
+
+        //주문 저장
+        orderRepository.save(order);
+
+        return order.getId();
+
+    }
+
 
     /**
      * 주문 취소
