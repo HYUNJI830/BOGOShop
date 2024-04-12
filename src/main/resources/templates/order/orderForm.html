@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form role="form" action="/order" method="post">
+    <form role="form" action="/order" method="post" id="orderForm">
         <div class="form-group">
             <label for="member">주문회원</label>
             <select name="memberId" id="member" class="form-control">
@@ -16,11 +16,11 @@
         </div>
         <div class="form-group">
             <label for="item">상품명</label>
-            <select name="itemId" id="item" class="form-control">
+            <select name="itemIds" id="item" class="form-control" multiple>
                 <option value="">상품선택</option>
                 <option th:each="item : ${items}"
                         th:value="${item.id}"
-                        th:text="${item.name}" />
+                        th:text="${item.name + ' - ' + item.price}" />
             </select>
         </div>
         <div class="form-group">
@@ -28,10 +28,61 @@
             <input type="number" name="count" class="form-control" id="count"
                    placeholder="주문 수량을 입력하세요">
         </div>
+        <button type="button" class="btn btn-primary" id="addItemBtn">상품 추가</button>
+        <br/><br/>
+        <ul id="selectedItems">
+            <!-- 여기에 선택된 상품을 표시할 태그 -->
+        </ul>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <br/>
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->
+
+<script>
+    function addItem() {
+        var itemSelect = document.getElementById('item');
+        var selectedItems = Array.from(itemSelect.selectedOptions);
+        var selectedItemsList = document.getElementById('selectedItems');
+        var itemCountInput = document.getElementById('count');
+        var itemCount = itemCountInput.value;
+
+        selectedItems.forEach(function(option) {
+            var itemText = option.text;
+            var itemId = option.value;
+
+            if (itemId !== "" && itemCount > 0) {
+                var li = document.createElement('li');
+                li.textContent = itemText + ' - 가격: ' + itemText.split(' - ')[1] + ' - 수량: ' + itemCount;
+                selectedItemsList.appendChild(li);
+            }
+        });
+    }
+
+    document.getElementById('addItemBtn').addEventListener('click', addItem);
+
+    document.getElementById('orderForm').addEventListener('submit', function() {
+        var selectedItems = Array.from(document.querySelectorAll('#item option:checked'));
+        var itemCountInput = document.getElementById('count');
+        var itemCount = itemCountInput.value;
+        var formData = new FormData();
+
+        selectedItems.forEach(function(option) {
+            formData.append('itemIds', option.value);
+            formData.append('counts', itemCount);
+        });
+
+        var memberIdInput = document.createElement('input');
+        memberIdInput.setAttribute('type', 'hidden');
+        memberIdInput.setAttribute('name', 'memberId');
+        memberIdInput.setAttribute('value', document.getElementById('member').value);
+        formData.append('memberId', document.getElementById('member').value);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/order');
+        xhr.send(formData);
+    });
+</script>
+
 </body>
 </html>

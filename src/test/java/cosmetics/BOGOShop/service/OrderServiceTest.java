@@ -1,9 +1,6 @@
 package cosmetics.BOGOShop.service;
 
-import cosmetics.BOGOShop.domain.Address;
-import cosmetics.BOGOShop.domain.Member;
-import cosmetics.BOGOShop.domain.Order;
-import cosmetics.BOGOShop.domain.OrderStatus;
+import cosmetics.BOGOShop.domain.*;
 import cosmetics.BOGOShop.domain.item.Item;
 import cosmetics.BOGOShop.domain.item.Makeup;
 import cosmetics.BOGOShop.exception.NotEnoughStockException;
@@ -63,7 +60,15 @@ public class OrderServiceTest {
         List<Integer> orderCounts = Arrays.asList(2, 3);
 
         //when
-        Long orderId = orderService.orders(member.getId(), itemIds, orderCounts);
+        Long orderId = orderService.orders(member.getId(),itemIds ,orderCounts);
+        Order getorder = orderRepository.findOne(orderId);
+        List<OrderItem> orderItems = getorder.getOrderItems();
+        System.out.println("주문항목들");
+        for(OrderItem orderItem:orderItems){
+            System.out.println("아이디 = " + orderItem.getItem().getId());
+            System.out.println("이름" + orderItem.getItem().getName());
+            System.out.println("가격 " + orderItem.getItem().getPrice());
+        }
 
         //then
         Order getOrder = orderRepository.findOne(orderId);

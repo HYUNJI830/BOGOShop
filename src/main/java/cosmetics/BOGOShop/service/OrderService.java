@@ -56,22 +56,22 @@ public class OrderService {
 
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
+        List<Item> items = itemRepository.findAllById(itemIds);
 
         //배송정보 생성
-        Delivery deliverys = new Delivery();
-        deliverys.setAddress(member.getAddress());
+        Delivery delivery = new Delivery();
+        delivery.setAddress(member.getAddress());
 
-        //주문상품 생성
-        List<Item> items = itemRepository.findAllById(itemIds);
         List<Integer> prices = new ArrayList<>();
-
         for (Item item : items) {
             prices.add(item.getPrice());
         }
-        List<OrderItem> orderItems = OrderItem.createOrderItems(items,prices,counts);
+
+        //주문상품 생성
+        List<OrderItem> orderItems =  OrderItem.createOrderItems(items,prices,counts);
 
         //주문 생성
-        Order order = Order.createOrders(member,deliverys,orderItems);
+        Order order = Order.createOrders(member,delivery,orderItems);
 
         //주문 저장
         orderRepository.save(order);
