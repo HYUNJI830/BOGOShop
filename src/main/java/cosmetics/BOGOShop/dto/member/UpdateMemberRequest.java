@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.dto;
+package cosmetics.BOGOShop.dto.member;
 
 import lombok.Data;
 

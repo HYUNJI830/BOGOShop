@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.dto.*;
+import cosmetics.BOGOShop.dto.member.*;
 import cosmetics.BOGOShop.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@RestController//(Controller + ResponseBody : 데이터 자체를 Json으로 바로 보냄)
 @RequiredArgsConstructor
 public class MemberApiController {
 
@@ -21,22 +22,23 @@ public class MemberApiController {
         List<Member> findMembers = memberService.findMembers();
         //엔티티 > DTO 반환
         List<MemberDto> collect = findMembers.stream()
-                .map(m-> new MemberDto(m.getName()))
+                .map(m-> new MemberDto(m.getName(),m.getAge()))
                 .collect(Collectors.toList());
 
-        return new Result(collect);
+        return new Result(collect.size(),collect);
     }
     @PostMapping("/api/members")
     public CreateMemberResponse saveMember(@RequestBody @Valid CreateMemberRequest request)
     {
         Member member = new Member();
         member.setName(request.getName());
+        member.setAge(request.getAge());
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
     }
 
-    @PutMapping("/api/members/{id}")
+    @PutMapping("/api/members/{id}") //멱등성
     public UpdateMemberResponse updateMember(@PathVariable("id") long id, @RequestBody @Valid UpdateMemberRequest request){
         memberService.update(id,request.getName());
         Member findMember = memberService.findOne(id);

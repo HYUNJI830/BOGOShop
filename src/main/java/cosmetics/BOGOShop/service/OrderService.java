@@ -80,7 +80,6 @@ public class OrderService {
 
     }
 
-
     /**
      * 주문 취소
      */
@@ -96,6 +95,14 @@ public class OrderService {
      * 주문 검색
      */
     public List<Order> findOrders(OrderSearch orderSearch){
-        return orderRepository.findAll(orderSearch);
+        return orderRepository.findAllByCondition(orderSearch);
     }
+
+    /**
+     * 주문 전체 검색
+     */
+    public List<Order> findOrdersAll(){
+        return orderRepository.findAll();
+    }
+
 }

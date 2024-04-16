@@ -1,5 +1,6 @@
 package cosmetics.BOGOShop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cosmetics.BOGOShop.domain.item.Item;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class OrderItem {
     @JoinColumn(name="item_id") //fk
     private Item item;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="order_id") //fk
     private Order order;

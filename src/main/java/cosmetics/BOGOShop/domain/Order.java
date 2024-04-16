@@ -19,6 +19,7 @@ public class Order {
     private Long id;//주문 아이디
 
     @ManyToOne(fetch = FetchType.LAZY)
+    //LAZY 멤버 데이터는 안가져옴 > 가짜 프록시 멤버 객체 생성 넣어둠(bytebuddyIntercepter)
     @JoinColumn(name="member_id") //fk
     private Member member; //회원 아이디
 

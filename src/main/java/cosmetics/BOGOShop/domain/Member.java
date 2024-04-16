@@ -1,6 +1,8 @@
 package cosmetics.BOGOShop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +19,7 @@ public class Member {
     @Column(name="member_id")
     private Long id; //회원 아이디
 
+
     private String name; //이름
 
     private Long age; //나이
@@ -26,6 +29,7 @@ public class Member {
     @Embedded
     private Address address; //주소
 
+    @JsonIgnore //양방향 연관관계에는 모두 해야함
     @OneToMany(mappedBy = "member") //일대다
     private List<Order> orders = new ArrayList<>();
 

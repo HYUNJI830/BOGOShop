@@ -61,10 +61,15 @@ public class OrderController {
 
     @GetMapping(value="/orders")
     public String orderList(@ModelAttribute("orderSearch")OrderSearch orderSearch, Model model){
-        List<Order> orders = orderService.findOrders(orderSearch);
-        model.addAttribute("orders",orders);
+        List<Order> orders;
+        if (orderSearch.getOrderStatus() == null||orderSearch.getMemberName()==null) { // 검색조건이 없는 경우
+            orders = orderService.findOrdersAll();
+        } else { // 검색조건이 있는 경우
+            orders = orderService.findOrders(orderSearch);
+        }
+        model.addAttribute("orders", orders);
         return "order/orderList";
-    }
+     }
 
     @PostMapping(value = "/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable ("orderId") Long orderID){

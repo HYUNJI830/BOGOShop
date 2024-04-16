@@ -1,12 +1,14 @@
-package cosmetics.BOGOShop.dto;
+package cosmetics.BOGOShop.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdateMemberResponse {
-    private Long id;
+public class MemberDto {
     private String name;
-}
 
+    private Long age;
+
+
+}
