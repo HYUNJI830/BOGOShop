@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.repository;
 
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.Order;
+import cosmetics.BOGOShop.dto.order.SimpleOrderDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
@@ -41,6 +42,15 @@ public class OrderRepository {
                 .setParameter("status",orderSearch.getOrderStatus())
                 .setParameter("name",orderSearch.getMemberName())
                 .setMaxResults(1000)
+                .getResultList();
+    }
+
+
+    public List<Order>  findAllWithMemberDelivery() {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
                 .getResultList();
     }
 
@@ -105,12 +115,13 @@ public class OrderRepository {
     }
 
 
-
-    public List<Order> findAllWithMemberDelivery() {
+    public List<Order> findAllWithItem() {
         return em.createQuery(
                         "select o from Order o" +
                                 " join fetch o.member m" +
-                                " join fetch o.delivery d", Order.class)
+                                " join fetch o.delivery d" +
+                                " join fetch o.orderItems oi" +
+                                " join fetch oi.item i", Order.class)
                 .getResultList();
     }
 }
