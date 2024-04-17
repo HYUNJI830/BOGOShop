@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.dto;
+package cosmetics.BOGOShop.dto.order;
 
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.Order;
