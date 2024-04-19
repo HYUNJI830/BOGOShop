@@ -8,6 +8,7 @@ import cosmetics.BOGOShop.repository.order.simplequery.OrderSimpleQueryDto;
 import cosmetics.BOGOShop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,9 +28,9 @@ public class OrderSimpleApiController {
     private final OrderSimpleQueryRepository orderSimpleQueryRepository; //의존관계 주입
 
     @GetMapping("/api/v3/simple-orders")
-    public List<SimpleOrderDto> ordersV3() {
+    public List<SimpleOrderDto> ordersV3(@RequestParam(value = "offset",defaultValue = "0") int offset, @RequestParam(value = "limit",defaultValue = "100") int limit) {
 
-        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset,limit);
         List<SimpleOrderDto> result = orders.stream()
                 .map( o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());

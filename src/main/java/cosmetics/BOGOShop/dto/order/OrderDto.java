@@ -17,7 +17,7 @@ public class OrderDto {
     private LocalDateTime orderDate; //주문시간
     private OrderStatus orderStatus;
     private Address address;
-    private List<OrderItemDto> orderItems;
+    private List<OrderItemDto> orderItems; //List<OrderItem> 엔티티로 받으면 안됨! 정보 노출 위험
 
     public OrderDto(Order order) {
         orderId = order.getId();
