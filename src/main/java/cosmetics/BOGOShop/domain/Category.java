@@ -1,7 +1,11 @@
 package cosmetics.BOGOShop.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import cosmetics.BOGOShop.domain.item.HairCare;
 import cosmetics.BOGOShop.domain.item.Item;
 import cosmetics.BOGOShop.domain.item.Makeup;
+import cosmetics.BOGOShop.domain.item.SkinCare;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,27 +24,29 @@ public class Category {
     @Column(name = "category_name")
     private String name;
 
-//    @ManyToMany
-//    @JoinTable(name = "category_item",
-//            joinColumns = @JoinColumn(name = "category_id"),
-//            inverseJoinColumns = @JoinColumn(name ="item_id"))
-    //DB는 다대다 관계를 만들수 없어서, 일대다 %다대일로 연결해야함
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
-    private List<Makeup> makeups = new ArrayList<>();
+//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
+//    private List<Makeup> makeups = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
+//    private List<HairCare> haircares = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
+//    private List<SkinCare> skincares = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Category parent; //카데고리2 = 중분류
+    private Category parent; //대분류 카테고리
 
     @OneToMany(mappedBy = "parent")
-    private List<Category> child = new ArrayList<>();
+    private List<Category> child = new ArrayList<>(); //중분류 카테고리
+
 
     //==연관관계 메서드==//
-    public void addChildCategory(Category child){
-        this.child.add(child);
-        child.setParent(this);
-    }
+//    public void addChildCategory(Category child){
+//        this.child.add(child); //현재 카테고리의 자식 카테고리 목록에 새로운 자식 카테고리를 추가
+//        child.setParent(this); //새로 추가된 자식 카테고리의 부모 카테고리를 현재 카테고리로 설정
+//    }
 }

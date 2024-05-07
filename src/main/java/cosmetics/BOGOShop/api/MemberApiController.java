@@ -22,7 +22,7 @@ public class MemberApiController {
         List<Member> findMembers = memberService.findMembers();
         //엔티티 > DTO 반환
         List<MemberDto> collect = findMembers.stream()
-                .map(m-> new MemberDto(m.getName(),m.getAge()))
+                .map(m-> new MemberDto(m))
                 .collect(Collectors.toList());
 
         return new Result(collect.size(),collect);
@@ -33,6 +33,8 @@ public class MemberApiController {
         Member member = new Member();
         member.setName(request.getName());
         member.setAge(request.getAge());
+        member.setPhone(request.getPhone());
+        member.setAddress(request.getAddress());
 
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);

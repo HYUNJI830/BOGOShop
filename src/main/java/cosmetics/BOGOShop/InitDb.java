@@ -36,6 +36,11 @@ public class InitDb {
         //꿀팁 단축키
         //따로 메서드로 분리하려는 코드를 드래그  + Ctrl + Alt + m > 메소드 분리
 
+        //카테고리 등록
+        public void dbInit0(){
+
+        }
+
         public void dbInit1(){
             Member member1 = createMember("스누피", "서울","1","1111");
             em.persist(member1);
@@ -79,8 +84,6 @@ public class InitDb {
             Order orders = Order.createOrders(member2,createDelivery(member2),orderItems);
             em.persist(orders);
         }
-
-
 
         private Member createMember(String name, String city, String street, String zipcode){
             Member member = new Member();
