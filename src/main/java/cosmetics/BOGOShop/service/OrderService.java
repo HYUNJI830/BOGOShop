@@ -5,10 +5,8 @@ import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.Order;
 import cosmetics.BOGOShop.domain.OrderItem;
 import cosmetics.BOGOShop.domain.item.Item;
-import cosmetics.BOGOShop.repository.ItemRepository;
-import cosmetics.BOGOShop.repository.MemberRepository;
-import cosmetics.BOGOShop.repository.OrderRepository;
-import cosmetics.BOGOShop.repository.OrderSearch;
+import cosmetics.BOGOShop.dto.order.OrderItemDto;
+import cosmetics.BOGOShop.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +30,7 @@ public class OrderService {
     public Long order(Long memberId, Long itemId, int count){
 
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).get();
         Item item = itemRepository.findOne(itemId);
 
         //배송정보 생성
@@ -55,7 +53,7 @@ public class OrderService {
     public Long orders(Long memberId, List<Long> itemIds,List<Integer> counts){
 
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).get();
         List<Item> items = itemRepository.findAllById(itemIds);
 
         //배송정보 생성
@@ -79,6 +77,34 @@ public class OrderService {
         return order.getId();
 
     }
+
+//    @Transactional
+//    public Long orders1(Long memberId, List<OrderItemDto> orderItems){
+//
+//        //엔티티 조회
+//        Member member = memberRepository.findById(memberId).get();
+//
+//
+//        //배송정보 생성
+//        Delivery delivery = new Delivery();
+//        delivery.setAddress(member.getAddress());
+//
+//        //주문상품 생성
+//        List<OrderItem> items = new ArrayList<>();
+//        for (OrderItemDto dto : orderItems) {
+//            Item item = itemRepository.findOne(dto.getItemId());
+//            items.add(OrderItem.createOrderItem(item, item.getPrice(), dto.getCount()));
+//        }
+//        //주문 생성
+//        Order order = Order.createOrders(member,delivery,items);
+//
+//        //주문 저장
+//        orderRepository.save(order);
+//
+//        return order.getId();
+//
+//    }
+
 
     /**
      * 주문 취소
@@ -104,5 +130,6 @@ public class OrderService {
     public List<Order> findOrdersAll(){
         return orderRepository.findAll();
     }
+
 
 }

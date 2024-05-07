@@ -1,16 +1,16 @@
 package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.Order;
+import cosmetics.BOGOShop.dto.order.CreateOrderRequest;
+import cosmetics.BOGOShop.dto.order.CreateOrderResponse;
 import cosmetics.BOGOShop.dto.order.OrderDto;
 import cosmetics.BOGOShop.repository.OrderRepository;
 import cosmetics.BOGOShop.repository.order.query.OrderQueryDto;
 import cosmetics.BOGOShop.repository.order.query.OrderQueryRepository;
+import cosmetics.BOGOShop.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +20,11 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequiredArgsConstructor
 public class OrderApiController {
+
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
+    private final OrderService orderService;
+
 
     @GetMapping("/api/v3/orders")
     public List<OrderDto> ordersV3(){
@@ -62,8 +65,18 @@ public class OrderApiController {
 
 
     //주문 생성
+    //단일 주문
+    @PostMapping("/api/order")
+    public CreateOrderResponse saveOrder(@RequestBody @Valid CreateOrderRequest request){
+
+       Long id =  orderService.order(request.getMemberId(),request.getItemId(),request.getCount());
+        return new CreateOrderResponse(id);
+    }
+    //다수 주문(수정 필요)
 //    @PostMapping("/api/orders")
-//    public CreateOrderRespose saveOrder(@RequestParam @Valid CreateOrderRequest request){
+//    public CreateOrderResponse saveOrders(@RequestBody @Valid CreateOrderRequest request){
 //
+//        Long id =  orderService.orders1(request.getMemberId(),request.getOrderItems());
+//        return new CreateOrderResponse(id);
 //    }
 }
