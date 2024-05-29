@@ -1,7 +1,12 @@
 package cosmetics.BOGOShop.repository.order.query;
 
 
-import cosmetics.BOGOShop.domain.Order;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import cosmetics.BOGOShop.domain.QDelivery;
+import cosmetics.BOGOShop.domain.QMember;
+import cosmetics.BOGOShop.domain.QOrder;
+import cosmetics.BOGOShop.domain.QOrderItem;
+import cosmetics.BOGOShop.domain.item.QItem;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,9 +17,10 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderQueryRepository {
+public class OrderQuerydslRepository {
 
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     /**
      * 컬렉션은 별도로 조회
@@ -38,22 +44,36 @@ public class OrderQueryRepository {
      * 1:N 관계 (컬렉션)를 제외한 나머지를 한번에 조회
      */
     private List <OrderQueryDto> findOrders(){
-        return em.createQuery("select new cosmetics.BOGOShop.repository.order.query.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
-                        " from Order o" +
-                        " join o.member m" +
-                        " join o.delivery d", OrderQueryDto.class)
-                .getResultList();
+        return queryFactory
+                .select(new QOrderQueryDto(
+                        QOrder.order.id,
+                        QMember.member.name,
+                        QOrder.order.orderDate,
+                        QOrder.order.status,
+                        QDelivery.delivery.address
+                ))
+                .from(QOrder.order)
+                .join(QOrder.order.member,QMember.member)
+                .join(QOrder.order.delivery,QDelivery.delivery)
+                .fetch();
     }
+
 
     /**
      * 1:N 관계인 orderItems 조회
      */
     private List<OrderItemQueryDto> findOrderItems(Long orderId){
-        return em.createQuery("select new cosmetics.BOGOShop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name,oi.orderPrice, oi.count)" +
-                " from OrderItem oi" +
-                " join oi.item i" +
-                " where oi.order.id = : orderId", OrderItemQueryDto.class)
-                .setParameter("orderId", orderId)                .getResultList();
+        return queryFactory
+                .select(new QOrderItemQueryDto(
+                        QOrderItem.orderItem.order.id,
+                        QItem.item.name,
+                        QOrderItem.orderItem.orderPrice,
+                        QOrderItem.orderItem.count
+                ))
+                .from(QOrderItem.orderItem)
+                .join(QOrderItem.orderItem.item, QItem.item)
+                .where(QOrderItem.orderItem.order.id.eq(orderId))
+                .fetch();
     }
 
     /**

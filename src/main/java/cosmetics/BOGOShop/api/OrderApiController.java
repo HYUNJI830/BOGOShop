@@ -7,13 +7,13 @@ import cosmetics.BOGOShop.dto.order.OrderDto;
 import cosmetics.BOGOShop.repository.OrderRepository;
 import cosmetics.BOGOShop.repository.order.query.OrderQueryDto;
 import cosmetics.BOGOShop.repository.order.query.OrderQueryRepository;
+import cosmetics.BOGOShop.repository.order.query.OrderQuerydslRepository;
 import cosmetics.BOGOShop.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -24,6 +24,7 @@ public class OrderApiController {
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
     private final OrderService orderService;
+    private final OrderQuerydslRepository orderQuerydslRepository;
 
 
     @GetMapping("/api/v3/orders")
@@ -56,6 +57,10 @@ public class OrderApiController {
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> ordersV4(){
         return orderQueryRepository.findOrderQueryDtos();
+    }
+    @GetMapping("/api/v4/dsl/orders")
+    public List<OrderQueryDto> ordersV4Dsl(){
+        return orderQuerydslRepository.findOrderQueryDtos();
     }
 
     @GetMapping("/api/v5/orders")

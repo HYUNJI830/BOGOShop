@@ -1,5 +1,6 @@
 package cosmetics.BOGOShop.repository.order.query;
 
+import com.querydsl.core.annotations.QueryProjection;
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.OrderStatus;
 import lombok.Data;
@@ -12,15 +13,17 @@ import java.util.List;
 @EqualsAndHashCode(of = "orderId")
 public class OrderQueryDto {
 
-    private Long orderId;
-    private String name;
+    private Long orderId; //주문아이디
+    private String memberName; //주문자 이름
     private LocalDateTime orderDate; //주문시간
-    private OrderStatus orderStatus;
-    private Address address;
+    private OrderStatus orderStatus; //주문상태
+    private Address address; //주소
     private List<OrderItemQueryDto> orderItems;
-    public OrderQueryDto(Long orderId, String name, LocalDateTime orderDate, OrderStatus orderStatus, Address address) {
+
+    @QueryProjection
+    public OrderQueryDto(Long orderId, String memberName, LocalDateTime orderDate, OrderStatus orderStatus, Address address) {
         this.orderId = orderId;
-        this.name = name;
+        this.memberName = memberName;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.address = address;
