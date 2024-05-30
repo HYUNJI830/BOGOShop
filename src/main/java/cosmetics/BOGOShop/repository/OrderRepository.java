@@ -45,26 +45,6 @@ public class OrderRepository {
                 .getResultList();
     }
 
-    public List<Order> findAllWithItem() {
-        return em.createQuery(
-                        "select distinct o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d" +
-                                " join fetch o.orderItems oi" +
-                                " join fetch oi.item i", Order.class)
-                .getResultList();
-        //distinct : 1. DB에 distinct 키워드 날려주고, 2. 엔티티가 중복인 경우 제거 (jpa에서 자체적으로 Order 같은 ID 값이면 중복을 제거)
-    }
-
-    public List<Order>  findAllWithMemberDelivery(int offset, int limit) {
-        return em.createQuery(
-                        "select o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d", Order.class)
-                .setFirstResult(offset)
-                .setMaxResults(limit)
-                .getResultList();
-    }
 
 
 }

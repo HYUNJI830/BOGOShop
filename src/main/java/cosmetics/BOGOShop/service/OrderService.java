@@ -78,39 +78,40 @@ public class OrderService {
 
     }
 
-//    @Transactional
-//    public Long orders1(Long memberId, List<OrderItemDto> orderItems){
-//
-//        //엔티티 조회
-//        Member member = memberRepository.findById(memberId).get();
-//
-//
-//        //배송정보 생성
-//        Delivery delivery = new Delivery();
-//        delivery.setAddress(member.getAddress());
-//
-//        //주문상품 생성
-//        List<OrderItem> items = new ArrayList<>();
-//        for (OrderItemDto dto : orderItems) {
-//            Item item = itemRepository.findOne(dto.getItemId());
-//            items.add(OrderItem.createOrderItem(item, item.getPrice(), dto.getCount()));
-//        }
-//        //주문 생성
-//        Order order = Order.createOrders(member,delivery,items);
-//
-//        //주문 저장
-//        orderRepository.save(order);
-//
-//        return order.getId();
-//
-//    }
+    @Transactional
+    public Long ordersNew(Long memberId, List<OrderItemDto> orderItemDtos){
+
+        //엔티티 조회
+        Member member = memberRepository.findById(memberId).get();
+
+        //배송정보 생성
+        Delivery delivery = new Delivery();
+        delivery.setAddress(member.getAddress());
+
+        //주문상품 생성
+        List<OrderItem> orderItems = new ArrayList<>();
+        for(OrderItemDto orderItemDto : orderItemDtos){
+            Item item = itemRepository.findOne(orderItemDto.getItemId());
+            OrderItem orderItem = OrderItem.createOrderItem(item,item.getPrice(),orderItemDto.getCount());
+            orderItems.add(orderItem);
+        }
+
+        //주문 생성
+        Order order = Order.createOrders(member,delivery,orderItems);
+
+        //주문 저장
+        orderRepository.save(order);
+
+        return order.getId();
+
+    }
 
 
     /**
      * 주문 취소
      */
     @Transactional
-    public  void cancelOrder(Long orderId){
+    public void  cancelOrder(Long orderId){
         //주문 엔티티 조회
         Order order = orderRepository.findOne(orderId);
 

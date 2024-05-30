@@ -100,15 +100,22 @@ public class OrderQuerydslRepository {
                 .collect(Collectors.toList());
     }
 
-    private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(List<Long> ordersIds) {
-        List<OrderItemQueryDto> orderItems = em.createQuery(
-                        "select new cosmetics.BOGOShop.repository.order.query.OrderItemQueryDto(oi.order.id, i.name, oi.orderPrice, oi.count)" +
-                                " from OrderItem oi" +
-                                " join oi.item i" +
-                                " where oi.order.id in :orderIds", OrderItemQueryDto.class)
-                .setParameter("orderIds", ordersIds)
-                .getResultList();
+    private Map<Long,List<OrderItemQueryDto>> findOrderItemMap(List<Long> ordersIds ){
+        List<OrderItemQueryDto> orderItems = queryFactory
+                .select(new QOrderItemQueryDto(
+                        QOrderItem.orderItem.order.id,
+                        QItem.item.name,
+                        QOrderItem.orderItem.orderPrice,
+                        QOrderItem.orderItem.count
+                ))
+                .from(QOrderItem.orderItem)
+                .join(QOrderItem.orderItem.item, QItem.item)
+                .where(QOrderItem.orderItem.order.id.in(ordersIds))
+                .fetch();
         return orderItems.stream()
                 .collect(Collectors.groupingBy(OrderItemQueryDto::getOrderItemId));
     }
+
+    //Collectors.groupingBy : 스트림의 요소들을 그룹화함
+    //각 요소로부터 키를 추출하여 동일한 키를 가진 요소들을 하나의 그룹으로 만들어 map으로 반환
     }

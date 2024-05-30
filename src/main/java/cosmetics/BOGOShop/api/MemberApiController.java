@@ -22,8 +22,8 @@ public class MemberApiController {
         List<Member> findMembers = memberService.findMembers();
         //엔티티 > DTO 반환
         List<MemberDto> collect = findMembers.stream()
-                .map(m-> new MemberDto(m))
-                .collect(Collectors.toList());
+                .map(m-> new MemberDto(m)) //각 요소를 변환 (Member 엔티티 -> Member DTO)
+                .collect(Collectors.toList()); //스트림을 컬렉션(+리스트)으로 변환
 
         return new Result(collect.size(),collect);
     }
