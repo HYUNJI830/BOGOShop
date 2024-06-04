@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.item.BodyCare;
 import cosmetics.BOGOShop.domain.item.BodyItem;
 import cosmetics.BOGOShop.domain.item.QBodyCare;
@@ -47,8 +48,12 @@ public class QuerydslBasicTest {
     //JUnit 5에서는 @BeforeEach 사용 한다.
     public void before(){
         queryFactory = new JPAQueryFactory(em);
-        BodyCare bodyCare_Shower = new BodyCare("Shower");
-        BodyCare bodyCare_Lip = new BodyCare("Lip");
+
+        Category categoryA = new Category("바디케어");
+        em.persist(categoryA);
+
+        BodyCare bodyCare_Shower = new BodyCare("Shower",categoryA);
+        BodyCare bodyCare_Lip = new BodyCare("Lip",categoryA);
         em.persist(bodyCare_Shower);
         em.persist(bodyCare_Lip);
 

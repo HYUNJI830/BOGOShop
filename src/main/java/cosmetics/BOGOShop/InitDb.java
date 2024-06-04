@@ -84,12 +84,16 @@ public class InitDb {
         //bodyCare
         public void dbInit3(){
             Category categoryA = new Category("바디케어");
+            Category categoryB = new Category("헤어케어");
             em.persist(categoryA);
+            em.persist(categoryB);
 
             BodyCare bodyCareA = new BodyCare("로션",categoryA);
             BodyCare bodyCareB = new BodyCare("립케어",categoryA);
+            HairCare hairCareA = new HairCare("염색",categoryB);
             em.persist(bodyCareA);
             em.persist(bodyCareB);
+            em.persist(hairCareA);
 
             BodyItem bodyItem11 = new BodyItem("리페어로션","일리윤",10000,bodyCareA);
             BodyItem bodyItem12 = new BodyItem("퍼퓸로션","부케가르니",7000,bodyCareA);

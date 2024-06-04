@@ -1,5 +1,6 @@
 package cosmetics.BOGOShop.repository.querydsl;
 
+import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.item.BodyCare;
 import cosmetics.BOGOShop.domain.item.BodyItem;
 import cosmetics.BOGOShop.dto.item.BodyCareItemDto;
@@ -28,7 +29,10 @@ public class BodyItemJPARepositoryTest {
 
     @Test
     public void basicTest() {
-        BodyCare bodyCareA = new BodyCare("로션");
+        Category categoryA = new Category("바디케어");
+        em.persist(categoryA);
+
+        BodyCare bodyCareA = new BodyCare("로션",categoryA);
         em.persist(bodyCareA);
 
         BodyItem bodyItem = new BodyItem("바디아이템1","일리윤",20000,bodyCareA);
@@ -43,8 +47,11 @@ public class BodyItemJPARepositoryTest {
 
     @Test
     public void searchTest(){
-        BodyCare bodyCareA = new BodyCare("로션");
-        BodyCare bodyCareB = new BodyCare("립케어");
+        Category categoryA = new Category("바디케어");
+        em.persist(categoryA);
+
+        BodyCare bodyCareA = new BodyCare("로션",categoryA);
+        BodyCare bodyCareB = new BodyCare("립케어",categoryA);
         em.persist(bodyCareA);
         em.persist(bodyCareB);
 
@@ -68,8 +75,11 @@ public class BodyItemJPARepositoryTest {
 
     @Test
     public void searchPageSimpleTest(){
-        BodyCare bodyCareA = new BodyCare("로션");
-        BodyCare bodyCareB = new BodyCare("립케어");
+        Category categoryA = new Category("바디케어");
+        em.persist(categoryA);
+
+        BodyCare bodyCareA = new BodyCare("로션",categoryA);
+        BodyCare bodyCareB = new BodyCare("립케어",categoryA);
         em.persist(bodyCareA);
         em.persist(bodyCareB);
 

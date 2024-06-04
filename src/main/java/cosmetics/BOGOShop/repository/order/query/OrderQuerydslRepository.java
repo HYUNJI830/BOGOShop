@@ -22,6 +22,8 @@ public class OrderQuerydslRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
+
+
     /**
      * 컬렉션은 별도로 조회
      * Query : 루트 1번, 컬렉션 N번

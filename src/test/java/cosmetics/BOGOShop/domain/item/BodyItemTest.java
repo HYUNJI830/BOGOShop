@@ -1,5 +1,6 @@
 package cosmetics.BOGOShop.domain.item;
 
+import cosmetics.BOGOShop.domain.Category;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -23,8 +24,11 @@ public class BodyItemTest {
 
     @Test
     public void testEntity(){
-        BodyCare bodyCare_Shower = new BodyCare("Shower");
-        BodyCare bodyCare_Lip = new BodyCare("Lip");
+        Category categoryA = new Category("바디케어");
+        em.persist(categoryA);
+
+        BodyCare bodyCare_Shower = new BodyCare("Shower",categoryA);
+        BodyCare bodyCare_Lip = new BodyCare("Lip",categoryA);
         em.persist(bodyCare_Shower);
         em.persist(bodyCare_Lip);
 

@@ -32,9 +32,7 @@ public class BodyItemRepository {
 //        this.queryFactory = queryFactory;
 //    }
 
-    public void CareSave(BodyCare bodyCare){
-        em.persist(bodyCare);
-    }
+
     public void save(BodyItem bodyItem){
         em.persist(bodyItem);
     }
