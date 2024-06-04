@@ -3,9 +3,9 @@ package cosmetics.BOGOShop.dto.category;
 import lombok.Data;
 
 @Data
-public class CreateCategoryResponse {
+public class CategoryResponse {
     private Long id;
-    public CreateCategoryResponse(Long id){
+    public CategoryResponse(Long id){
         this.id = id;
     }
 }

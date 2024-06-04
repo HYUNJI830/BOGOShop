@@ -1,7 +1,7 @@
 package cosmetics.BOGOShop.dto.category;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.dto.item.BodyCareDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,17 +11,22 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 public class CategoryDto {
-    private Long ParentId;
+    private Long Id;
     private String name;
-    private List<CategoryChildDto> child;
+    private List<BodyCareDto> bodyCare;
+    //private List<CategoryChildDto> child;
 
-    public CategoryDto(Category category){
-        ParentId = category.getId();
+    public CategoryDto(Category category) {
+        Id = category.getId();
         name = category.getName();
-        child = category.getChild().stream()
-                .map(categoryChild -> new CategoryChildDto(categoryChild))
+        bodyCare = category.getBodyCares().stream()
+                .map(bodyCare -> new BodyCareDto(bodyCare))
                 .collect(Collectors.toList());
+//
+//        child = category.getChild().stream()
+//                .map(categoryChild -> new CategoryChildDto(categoryChild))
+//                .collect(Collectors.toList());
+//    }
+
     }
-
-
 }

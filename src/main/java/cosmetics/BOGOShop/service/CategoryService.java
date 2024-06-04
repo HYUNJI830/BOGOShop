@@ -1,7 +1,10 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.domain.item.BodyCare;
 import cosmetics.BOGOShop.repository.category.CategoryRepository;
+import cosmetics.BOGOShop.repository.querydsl.BodyItemJPARepository;
+import cosmetics.BOGOShop.repository.querydsl.BodyItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final BodyItemRepository bodyRepository;
 
     /**
      * 카테고리 등록
@@ -32,11 +36,20 @@ public class CategoryService {
         }
     }
 
-    public void addChildCategory(Category child, Category parentCategory) {
-        //parentCategory.addChildCategory(child); // 부모 카테고리에 자식 카테고리 추가
-        parentCategory.setChild(child.getChild());
-        child.setParent(parentCategory); // 부모 카테고리 설정
+    //바디케어카테고리 등록
+    @Transactional
+    public Long addBodyCareCategory(BodyCare bodyCare){
+       bodyRepository.CareSave(bodyCare);
+       return bodyCare.getId();
     }
+
+
+
+//    public void addChildCategory(Category child, Category parentCategory) {
+//        //parentCategory.addChildCategory(child); // 부모 카테고리에 자식 카테고리 추가
+//        parentCategory.setChild(child.getChild());
+//        child.setParent(parentCategory); // 부모 카테고리 설정
+//    }
 
 
     /**

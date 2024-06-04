@@ -1,12 +1,12 @@
 package cosmetics.BOGOShop;
 
 import cosmetics.BOGOShop.domain.*;
-import cosmetics.BOGOShop.domain.item.Item;
-import cosmetics.BOGOShop.domain.item.Makeup;
-import cosmetics.BOGOShop.domain.item.SkinCare;
+import cosmetics.BOGOShop.domain.item.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Profile("local")
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -24,6 +25,7 @@ public class InitDb {
     public void init(){
         initService.dbInit1();
         initService.dbInit2();
+        initService.dbInit3();
     }
 
     @Component
@@ -31,15 +33,12 @@ public class InitDb {
     @RequiredArgsConstructor
     static class InitService{
 
+        @PersistenceContext
         private final EntityManager em;
 
         //꿀팁 단축키
         //따로 메서드로 분리하려는 코드를 드래그  + Ctrl + Alt + m > 메소드 분리
 
-        //카테고리 등록
-        public void dbInit0(){
-
-        }
 
         public void dbInit1(){
             Member member1 = createMember("스누피", "서울","1","1111");
@@ -55,10 +54,7 @@ public class InitDb {
             OrderItem orderItem1 = OrderItem.createOrderItem(makeup1,50000,1);
             OrderItem orderItem2 = OrderItem.createOrderItem(makeup2,100000,1);
 
-
-
             Order order = Order.createOrder(member1, createDelivery(member1),orderItem1,orderItem2);
-
 
             em.persist(order);
 
@@ -83,6 +79,26 @@ public class InitDb {
 
             Order orders = Order.createOrders(member2,createDelivery(member2),orderItems);
             em.persist(orders);
+        }
+
+        //bodyCare
+        public void dbInit3(){
+            Category categoryA = new Category("바디케어");
+            em.persist(categoryA);
+
+            BodyCare bodyCareA = new BodyCare("로션",categoryA);
+            BodyCare bodyCareB = new BodyCare("립케어",categoryA);
+            em.persist(bodyCareA);
+            em.persist(bodyCareB);
+
+            BodyItem bodyItem11 = new BodyItem("리페어로션","일리윤",10000,bodyCareA);
+            BodyItem bodyItem12 = new BodyItem("퍼퓸로션","부케가르니",7000,bodyCareA);
+            BodyItem bodyItem21 = new BodyItem("딸기맛립밤","니베아",3000,bodyCareB);
+            BodyItem bodyItem22 = new BodyItem("허니립마스크","에뛰드",8000,bodyCareB);
+            em.persist(bodyItem11);
+            em.persist(bodyItem12);
+            em.persist(bodyItem21);
+            em.persist(bodyItem22);
         }
 
         private Member createMember(String name, String city, String street, String zipcode){
