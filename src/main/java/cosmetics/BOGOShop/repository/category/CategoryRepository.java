@@ -2,6 +2,8 @@ package cosmetics.BOGOShop.repository.category;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.domain.SubCategory;
+import cosmetics.BOGOShop.domain.item.BodyCare;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +43,18 @@ public class CategoryRepository {
         return em.createQuery("select c from Category c where c.name = :name",Category.class)
                 .setParameter("name",name)
                 .getResultList();
+    }
+
+    //서브 카데고리 저장
+    public void saveSub(SubCategory subCategory){
+        em.persist(subCategory);
+    }
+
+
+
+    //바디케어 저장
+    public void bodyCareSave(BodyCare bodyCare){
+        em.persist(bodyCare);
     }
 
 

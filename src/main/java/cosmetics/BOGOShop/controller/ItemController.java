@@ -31,9 +31,7 @@ public class ItemController {
         makeup.setName(form.getName());
         makeup.setPrice(form.getPrice());
         makeup.setStockQuantity(form.getStockQuantity());
-        makeup.setMakeupCategory(form.getMakeupCategory());
-        makeup.setMakeupCategory(form.getMakeupCategory());
-
+        makeup.setCategory(form.getMakeupCategory());
         itemService.saveItem(makeup);
         return  "redirect:/";
     }
@@ -59,7 +57,7 @@ public class ItemController {
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setStockQuantity(item.getStockQuantity());
-        form.setMakeupCategory(item.getMakeupCategory());
+        form.setMakeupCategory(item.getCategory());
         form.setBrandName(item.getBrandName());
 
         model.addAttribute("form", form);

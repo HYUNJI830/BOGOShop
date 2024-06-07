@@ -1,6 +1,7 @@
 package cosmetics.BOGOShop.domain.item;
 
 import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.domain.SubCategory;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class SkinCare extends Item {
     @JoinColumn(name="category_id")
     private Category category;
 
-    private String SkinCategory;
-    private String brandName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subCategory_id")
+    private SubCategory subCategory;
 }

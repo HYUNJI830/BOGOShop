@@ -19,9 +19,9 @@ public  abstract class Item {
     @Column(name = "item_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id") //fk
-    private Category category;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="category_id") //fk
+//    private Category category;
 
     @Column(name = "item_name")
     private String name;
@@ -31,6 +31,19 @@ public  abstract class Item {
 
     @Column(name = "item_Quantity")
     private int stockQuantity; //재고수량
+
+    @Column(name = "item_BrandName")
+    private String brandName; //브랜드 이름
+
+    public Item() {
+
+    }
+    public Item(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
 
     //==비즈니스로직==//
 

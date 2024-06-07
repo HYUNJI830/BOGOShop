@@ -2,13 +2,10 @@ package cosmetics.BOGOShop.repository.querydsl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import cosmetics.BOGOShop.domain.item.BodyCare;
-import cosmetics.BOGOShop.domain.item.BodyItem;
-import cosmetics.BOGOShop.domain.item.QBodyCare;
-import cosmetics.BOGOShop.domain.item.QBodyItem;
-import cosmetics.BOGOShop.dto.item.BodyCareItemDto;
-import cosmetics.BOGOShop.dto.item.BodyItemSearchCondition;
-import cosmetics.BOGOShop.dto.item.QBodyCareItemDto;
+import cosmetics.BOGOShop.domain.QCategory;
+import cosmetics.BOGOShop.domain.QSubCategory;
+import cosmetics.BOGOShop.domain.item.*;
+import cosmetics.BOGOShop.dto.item.*;
 import cosmetics.BOGOShop.repository.order.query.QOrderItemQueryDto;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +48,22 @@ public class BodyItemRepository {
         return queryFactory
                 .selectFrom(QBodyItem.bodyItem)
                 .where(QBodyItem.bodyItem.brandName.eq(brandName))
+                .fetch();
+    }
+
+    public List<ItemDto> searchItems(Long categoryId){
+        return queryFactory
+                .select(new QItemDto(
+                        QItem.item.id,
+                        QItem.item.name,
+                        QItem.item.price,
+                        QCategory.category.id,
+                        QCategory.category.name,
+                        QSubCategory.subCategory.id,
+                        QSubCategory.subCategory.name
+                ))
+                .from(QItem.item)
+                .where(QCategory.category.id.eq(categoryId))
                 .fetch();
     }
 

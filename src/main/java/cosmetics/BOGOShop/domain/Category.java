@@ -23,25 +23,21 @@ public class Category {
     @Column(name = "category_name")
     private String name; //바디케어 //메이크업 //스킨케어
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Item> items = new ArrayList<>();
+    //@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "category")
+//    private List<Item> items = new ArrayList<>();
 
     @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
     private List <BodyCare> bodyCares = new ArrayList<>();//카테고리 1 _bodyCare
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<SubCategory> subCategories = new ArrayList<>();
 
     public  Category(String name){
         this.name = name;
     }
 
 
-//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
-//    private List<Makeup> makeups = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
-//    private List<HairCare> haircares = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
-//    private List<SkinCare> skincares = new ArrayList<>();
 
     //==연관관계 메서드==//
 
