@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cosmetics.BOGOShop.domain.Member;
+import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -41,5 +42,6 @@ public class MemberRepositoryOLD {
                 .setParameter("name",name)
                 .getResultList();
     }
+
 
 }

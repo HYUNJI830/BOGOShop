@@ -42,7 +42,7 @@ public class InitDb {
 
 
         public void dbInit1(){
-            Member member1 = createMember("스누피", "서울","1","1111");
+            Member member1 = createMember("userA","1234","스누피", "서울","1","1111");
             em.persist(member1);
 
             Category categoryM = new Category("메이크업");
@@ -64,7 +64,7 @@ public class InitDb {
 
         }
         public void dbInit2(){
-            Member member2 = createMember("찰리", "부산","2","2222");
+            Member member2 = createMember("userB","5678","찰리", "부산","2","2222");
             em.persist(member2);
 
 
@@ -118,7 +118,7 @@ public class InitDb {
 
         //hairCare
         public void dbInit4(){
-            Member member3 = createMember("샐리", "청주","3","333");
+            Member member3 = createMember("userC","0000","샐리", "청주","3","333");
             em.persist(member3);
 
             Category categoryH = new Category("헤어케어");
@@ -138,8 +138,11 @@ public class InitDb {
         }
 
 
-        private Member createMember(String name, String city, String street, String zipcode){
+        private Member createMember(String userId,String password,String name, String city, String street, String zipcode){
             Member member = new Member();
+            member.setUserId(userId);
+            member.setPassword(password);
+            member.setStatus(MemberStatus.MEMBER);
             member.setName(name);
             member.setAddress(new Address(city,street,zipcode));
             return member;

@@ -1,6 +1,7 @@
 package cosmetics.BOGOShop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -17,14 +18,21 @@ public class Member {
 
     @Id @GeneratedValue
     @Column(name="member_id")
-    private Long id; //회원 아이디
+    private Long id; //회원 식별번호
 
+    private String userId; //회원 아이디
+    private String password;//회원 비밀번호
 
     private String name; //이름
 
     private Long age; //나이
 
     private String phone; //연락처
+
+    private boolean isAdmin; //운영자 여부
+
+    private MemberStatus status;// GUEST, MEMBER ,ADMIN
+
 
     @Embedded
     private Address address; //주소
