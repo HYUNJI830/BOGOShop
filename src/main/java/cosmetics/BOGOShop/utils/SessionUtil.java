@@ -3,12 +3,15 @@ package cosmetics.BOGOShop.utils;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@Getter
+@NoArgsConstructor
 public class SessionUtil {
-    private static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
-    private static final String LOGIN_ADMIN_ID = "LOGIN_ADMIN_ID";
-
+    public static final String LOGIN_MEMBER_ID = "LOGIN_MEMBER_ID";
+    public static final String LOGIN_ADMIN_ID = "LOGIN_ADMIN_ID";
 
     /**
      * Member

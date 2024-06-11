@@ -15,15 +15,11 @@ import java.util.stream.Collectors;
 public class CategoryDto {
     private Long categoryId;
     private String categoryName;
-    private List<BodyCareDto> bodyCare;
     private List<SubCategoryDto> subCategories;
 
     public CategoryDto(Category category) {
         this.categoryId = category.getId();
         this.categoryName = category.getName();
-        this.bodyCare = getNullableList(category.getBodyCares().stream()
-                .map(BodyCareDto::new)
-                .collect(Collectors.toList()));
         this.subCategories = getNullableList(category.getSubCategories().stream()
                 .map(SubCategoryDto::new)
                 .collect(Collectors.toList()));

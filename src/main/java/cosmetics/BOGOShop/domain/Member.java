@@ -41,4 +41,12 @@ public class Member {
     @OneToMany(mappedBy = "member") //일대다
     private List<Order> orders = new ArrayList<>();
 
+    //==비즈니스 로직==//
+    public boolean isAdmin(MemberStatus status){
+        if(status == MemberStatus.ADMIN){
+            return isAdmin = true;
+        }
+        return isAdmin = false;
+    }
+
 }

@@ -7,7 +7,8 @@ import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import cosmetics.BOGOShop.dto.member.QLoginMemberDto;
 import jakarta.persistence.EntityManager;
 
-public class MemberRepositoryImpl implements MemberRepositoryCustom {
+public class MemberRepositoryImpl implements
+        MemberRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager em;

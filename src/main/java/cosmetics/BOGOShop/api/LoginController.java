@@ -1,11 +1,12 @@
-package cosmetics.BOGOShop.controller;
+package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.MemberStatus;
 import cosmetics.BOGOShop.dto.Login.LoginRequest;
 import cosmetics.BOGOShop.dto.Login.LoginResponse;
 import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import cosmetics.BOGOShop.service.LoginService;
-import cosmetics.BOGOShop.utils.SessionUtil;
+import cosmetics.BOGOShop.utils.SessionConst;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -31,7 +32,7 @@ public class LoginController {
 
     //로그인
     @PostMapping("/login/signin")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
         String userId = loginRequest.getUserId();
         String password = loginRequest.getPassword();
 
@@ -41,15 +42,34 @@ public class LoginController {
             return ResponseEntity.notFound().build();
         }
 
-        Long id = userInfo.getId();
         LoginResponse loginResponse = LoginResponse.success(userInfo);
 
-        if (userInfo.getStatus() == MemberStatus.ADMIN) {
-            SessionUtil.setLoginAdminId(httpSession, id);
-        } else {
-            SessionUtil.setLoginMemberId(httpSession, id);
+        HttpSession httpSession = request.getSession();
+
+        //이결로 대체 가능
+        if(userInfo.getStatus() == MemberStatus.ADMIN){
+            httpSession.setAttribute(SessionConst.LOGIN_ADMIN_ID,userInfo);
+        }else {
+            httpSession.setAttribute(SessionConst.LOGIN_MEMBER_ID,userInfo);
         }
+
+//        if (userInfo.getStatus() == MemberStatus.ADMIN) {
+//            SessionUtil.setLoginAdminId(httpSession, id); //세션에 로그인 정보 보관(Admin)
+//        } else {
+//            SessionUtil.setLoginMemberId(httpSession, id);//세션에 로그인 정보 보관(Member)
+//        }
 
         return ResponseEntity.ok(loginResponse);
     }
+
+    @PostMapping ("/login/signout")
+    public ResponseEntity<Void> logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }

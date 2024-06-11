@@ -25,15 +25,13 @@ public class LoginService {
     @Transactional
     public void register(LoginMemberDto loginMemberDto){
         loginMemberDto.setPassword(SHA256Util.encryptSHA256(loginMemberDto.getPassword()));
-        memberRepository.register(loginMemberDto);
+        Member member = memberRepository.register(loginMemberDto);
+        member.isAdmin(loginMemberDto.getStatus());
     }
 
     //로그인
     public LoginMemberDto login(String userId, String password){
-        log.info("userId: " + userId);
         String cryptoPassword = SHA256Util.encryptSHA256(password);
-        log.info("Encrypted Password: " + cryptoPassword);
-
         LoginMemberDto memberInfo = memberRepository.findMemberByIdAndPassword(userId,cryptoPassword);
 
         if (memberInfo == null) {

@@ -20,8 +20,6 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final BodyItemRepository bodyRepository;
-    private final OrderQuerydslRepository orderQuerydslRepository;
 
     /**
      * 카테고리 등록
@@ -53,13 +51,6 @@ public class CategoryService {
         categoryRepository.bodyCareSave(bodyCare);
        return bodyCare.getId();
     }
-
-
-//    public void addChildCategory(Category child, Category parentCategory) {
-//        //parentCategory.addChildCategory(child); // 부모 카테고리에 자식 카테고리 추가
-//        parentCategory.setChild(child.getChild());
-//        child.setParent(parentCategory); // 부모 카테고리 설정
-//    }
 
 
     /**
