@@ -1,15 +1,16 @@
 package cosmetics.BOGOShop.api;
 
+import cosmetics.BOGOShop.aop.LoginCheck;
 import cosmetics.BOGOShop.domain.MemberStatus;
 import cosmetics.BOGOShop.dto.Login.LoginRequest;
 import cosmetics.BOGOShop.dto.Login.LoginResponse;
-import cosmetics.BOGOShop.dto.member.LoginMemberDto;
+import cosmetics.BOGOShop.dto.Login.UpdateUserDto;
+import cosmetics.BOGOShop.dto.Login.LoginMemberDto;
 import cosmetics.BOGOShop.service.LoginService;
 import cosmetics.BOGOShop.utils.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final LoginService loginService;
+    private static final ResponseEntity<LoginResponse> FAIL_RESPONSE = new ResponseEntity<LoginResponse>(HttpStatus.BAD_REQUEST);
 
     //회원가입
     @PostMapping("/login/signup")
@@ -53,6 +55,7 @@ public class LoginController {
             httpSession.setAttribute(SessionConst.LOGIN_MEMBER_ID,userInfo);
         }
 
+        //SessionUtil 사용할 때
 //        if (userInfo.getStatus() == MemberStatus.ADMIN) {
 //            SessionUtil.setLoginAdminId(httpSession, id); //세션에 로그인 정보 보관(Admin)
 //        } else {
@@ -71,5 +74,29 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    //로그인 비밀번호 수정
+    @PostMapping("/login/update")
+    //@LoginCheck(type = LoginCheck.UserType.USER)
+    public ResponseEntity<LoginResponse> updateUserPassword(@RequestBody UpdateUserDto updateUserDto){
+        ResponseEntity<LoginResponse> responseEntity = null;
+
+        String userId = updateUserDto.getUserId();
+        String beforePassword = updateUserDto.getBeforePassword();
+        String afterPassword = updateUserDto.getAfterPassword();
+
+        try{
+            loginService.updatePassword(userId,beforePassword,afterPassword);
+            LoginMemberDto loginMemberInfo = loginService.login(userId,afterPassword);
+            LoginResponse loginResponse = LoginResponse.success(loginMemberInfo);
+            responseEntity = ResponseEntity.ok(new ResponseEntity<LoginResponse> (loginResponse,HttpStatus.OK).getBody());
+
+
+        } catch (IllegalArgumentException e){
+            log.error("updatePassword 실패",e);
+            responseEntity = FAIL_RESPONSE;
+        }
+
+        return responseEntity;
+    }
 
 }

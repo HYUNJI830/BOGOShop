@@ -1,6 +1,5 @@
 package cosmetics.BOGOShop.dto.Login;
 
-import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import lombok.*;
 
 @Getter

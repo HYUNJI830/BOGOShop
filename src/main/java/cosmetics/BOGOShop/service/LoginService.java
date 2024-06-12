@@ -1,17 +1,13 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Member;
-import cosmetics.BOGOShop.dto.member.LoginMemberDto;
+import cosmetics.BOGOShop.dto.Login.LoginMemberDto;
 import cosmetics.BOGOShop.repository.MemberRepository;
-import cosmetics.BOGOShop.repository.MemberRepositoryImpl;
 import cosmetics.BOGOShop.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -40,6 +36,19 @@ public class LoginService {
             log.info("Login successful: " + memberInfo.toString());
         }
         return memberInfo;
+    }
+
+    public void updatePassword(String userId,String beforePassword, String afterPassword){
+        String cryptoPassword = SHA256Util.encryptSHA256(beforePassword);
+        LoginMemberDto loginMemberInfo = memberRepository.findMemberByIdAndPassword(userId,cryptoPassword);
+
+        if(loginMemberInfo != null){
+            loginMemberInfo.setPassword(SHA256Util.encryptSHA256(afterPassword));
+            memberRepository.updatePassword(loginMemberInfo);
+        } else{
+            log.error("updatePasswrod ERROR! {}", loginMemberInfo);
+        }
+
     }
 
 }

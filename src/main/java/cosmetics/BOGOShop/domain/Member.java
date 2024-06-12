@@ -1,9 +1,7 @@
 package cosmetics.BOGOShop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import cosmetics.BOGOShop.dto.member.LoginMemberDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 

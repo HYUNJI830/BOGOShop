@@ -3,12 +3,12 @@ package cosmetics.BOGOShop.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.QMember;
-import cosmetics.BOGOShop.dto.member.LoginMemberDto;
-import cosmetics.BOGOShop.dto.member.QLoginMemberDto;
+import cosmetics.BOGOShop.dto.Login.LoginMemberDto;
+
+import cosmetics.BOGOShop.dto.Login.QLoginMemberDto;
 import jakarta.persistence.EntityManager;
 
-public class MemberRepositoryImpl implements
-        MemberRepositoryCustom {
+public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     private final EntityManager em;
@@ -25,6 +25,18 @@ public class MemberRepositoryImpl implements
 
         em.persist(member);
         return member;
+    }
+
+    @Override
+    public void updatePassword(LoginMemberDto loginMemberDto) {
+        long count =  queryFactory
+                .update(QMember.member)
+                .set(QMember.member.password,loginMemberDto.getPassword())
+                .where(QMember.member.userId.eq(loginMemberDto.getUserId()))
+                .execute();
+
+        em.flush();
+        em.clear();
     }
 
 
