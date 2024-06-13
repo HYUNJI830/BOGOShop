@@ -1,11 +1,13 @@
 package cosmetics.BOGOShop;
 
+
 import cosmetics.BOGOShop.filter.LoginCheckFilter;
 import cosmetics.BOGOShop.intercepter.LoginCheckInterceptor;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,12 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
 //        filterRegistrationBean.addUrlPatterns("/api/*"); //필터를 적용할 URl 패턴
 //        return filterRegistrationBean;
 //    }
-        @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-            registry.addInterceptor(new LoginCheckInterceptor())
-            .order(1)
-            .addPathPatterns("/**")
-            .excludePathPatterns("/css/**", "/*.ico", "/error","/login/*");
-}
+
+//        @Override
+//        public void addInterceptors(InterceptorRegistry registry) {
+//            registry.addInterceptor(new LoginCheckInterceptor())
+//            .order(1) //순위를 나중으로 미루는 방법
+//            .addPathPatterns("/**")
+//            .excludePathPatterns("/css/**", "/*.ico", "/error","/login/*");
+//}
 
 }

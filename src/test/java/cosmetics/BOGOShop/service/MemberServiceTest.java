@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional
 public class MemberServiceTest {
 
     @Autowired

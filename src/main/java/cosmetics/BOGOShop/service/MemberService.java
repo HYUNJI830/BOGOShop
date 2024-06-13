@@ -1,13 +1,23 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Member;
+import cosmetics.BOGOShop.dto.Login.JwtToken;
+import cosmetics.BOGOShop.dto.Login.SignUpDto;
+import cosmetics.BOGOShop.dto.member.MemberDto;
+import cosmetics.BOGOShop.provider.JwtTokenProvider;
 import cosmetics.BOGOShop.repository.MemberRepository;
-import cosmetics.BOGOShop.repository.MemberRepositoryOLD;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -15,20 +25,26 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final PasswordEncoder passwordEncoder;
+
     /**
      * * 회원가입
      */
     @Transactional
     public Long join(Member member){
-        validateDuplicateMember(member);//중복 회원 검증
+        validateDuplicateMemberName(member);//중복 회원 검증
         memberRepository.save(member);
         return member.getId();
     }
 
     //중복 회원 검증
-    private void validateDuplicateMember(Member member){
-        List<Member> findMembers = memberRepository.findByName(member.getName());
-        if(!findMembers.isEmpty()){
+    private void validateDuplicateMemberName(Member member){
+        List<Member> findMemberNames = memberRepository.findByName(member.getName());
+
+        if(!findMemberNames.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
@@ -51,6 +67,40 @@ public class MemberService {
     public void update(Long id, String name){
         Member member = memberRepository.findById(id).get();
         member.setName(name);
+    }
+
+    /**
+     * JWT 서비스
+     */
+    @Transactional
+    public MemberDto signUp(SignUpDto signUpDto){
+
+        String userID = String.valueOf(memberRepository.findByUserId(signUpDto.getUserId()));
+        if(userID!= null || !userID.isEmpty()){
+            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+        }
+        //Password 암호화
+        String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
+        List<String> roles = new ArrayList<>();
+        roles.add("USER"); //USER 권한 부여
+        return MemberDto.toDto(memberRepository.save(signUpDto.toEntity(encodedPassword,roles)));
+    }
+
+
+    @Transactional
+    public JwtToken signIn(String userId, String password) {
+        // 1. username + password 를 기반으로 Authentication 객체 생성
+        // 이때 authentication 은 인증 여부를 확인하는 authenticated 값이 false
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password);
+
+        // 2. 실제 검증. authenticate() 메서드를 통해 요청된 Member 에 대한 검증 진행
+        // authenticate 메서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드 실행
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+        return jwtToken;
     }
 
 }

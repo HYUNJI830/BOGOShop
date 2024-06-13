@@ -16,7 +16,7 @@ import java.util.logging.LogRecord;
 @Log4j2
 public class LoginCheckFilter implements Filter {
 
-    private static final String[] whiteList = {"/","/login","/css/*"};
+    private static final String[] whiteList = {"/","/login/*","/css/*","/member/*"};
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

@@ -2,15 +2,24 @@ package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.dto.*;
+import cosmetics.BOGOShop.dto.Login.JwtToken;
+import cosmetics.BOGOShop.dto.Login.SignInDto;
+import cosmetics.BOGOShop.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.*;
 import cosmetics.BOGOShop.service.MemberService;
+import cosmetics.BOGOShop.utils.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@Slf4j
 @RestController//(Controller + ResponseBody : 데이터 자체를 Json으로 바로 보냄)
 @RequiredArgsConstructor
 public class MemberApiController {
@@ -46,4 +55,28 @@ public class MemberApiController {
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
     }
+    @PostMapping("/members/sign-up")
+    public ResponseEntity<MemberDto> signUp(@RequestBody @Valid SignUpDto signUpDto){
+        MemberDto savedMemberDto = memberService.signUp(signUpDto);
+        return ResponseEntity.ok(savedMemberDto);
+    }
+
+    @PostMapping("/members/sign-in")
+    public JwtToken signIn(@RequestBody @Valid SignInDto signInDto) {
+        String userId = signInDto.getUserId();
+        String password = signInDto.getPassword();
+        JwtToken jwtToken = memberService.signIn(userId, password);
+        return jwtToken;
+    }
+
+    @PostMapping("/members/user")
+    public String loginUser() {
+        return SecurityUtil.getCurrentLoginUserId();
+    }
+
+    @PostMapping("/members/logout")
+    public ResponseEntity<MemberDto> logout(){
+        return null;
+    }
+
 }
