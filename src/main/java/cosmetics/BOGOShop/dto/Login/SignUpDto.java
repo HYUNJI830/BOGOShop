@@ -3,15 +3,15 @@ package cosmetics.BOGOShop.dto.Login;
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.MemberStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import cosmetics.BOGOShop.domain.Role;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,9 +33,10 @@ public class SignUpDto {
 
     private Address address; //주소
 
-    private List<String> roles = new ArrayList<>();
+    private List<Role> roles = Collections.singletonList(Role.USER);
 
-    public Member toEntity(String encodedPassword, List<String> roles){
+
+    public Member toEntity(String encodedPassword){
         return Member.builder()
                 .userId(userId)
                 .password(encodedPassword)

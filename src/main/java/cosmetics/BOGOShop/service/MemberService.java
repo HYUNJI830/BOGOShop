@@ -74,21 +74,27 @@ public class MemberService {
      */
     @Transactional
     public MemberDto signUp(SignUpDto signUpDto){
-
-        String userID = String.valueOf(memberRepository.findByUserId(signUpDto.getUserId()));
-        if(userID!= null || !userID.isEmpty()){
-            throw new IllegalArgumentException("이미 사용중인 아이디입니다.");
+        //아이디 중복 체크
+        Optional<Member> isExistUserId = memberRepository.findByUserId(signUpDto.getUserId());
+        if (isExistUserId.isPresent()){
+            throw new IllegalArgumentException("이미 사용 중인 ID 입니다.");
         }
         //Password 암호화
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
-        List<String> roles = new ArrayList<>();
-        roles.add("USER"); //USER 권한 부여
-        return MemberDto.toDto(memberRepository.save(signUpDto.toEntity(encodedPassword,roles)));
+//        List<String> roles = new ArrayList<>();
+//        roles.add("USER"); //USER 권한 부여
+        Member member = memberRepository.save(signUpDto.toEntity(encodedPassword));
+        return MemberDto.toDto(member);
     }
 
 
     @Transactional
     public JwtToken signIn(String userId, String password) {
+        //아이디 존재 여부
+        Optional<Member> isExistUserId = memberRepository.findByUserId(userId);
+        if(!isExistUserId.isPresent()){
+            throw new IllegalArgumentException("존재하지 않는 ID 입니다.");
+        }
         // 1. username + password 를 기반으로 Authentication 객체 생성
         // 이때 authentication 은 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password);

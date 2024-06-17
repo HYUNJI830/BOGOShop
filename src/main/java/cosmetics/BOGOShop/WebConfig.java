@@ -1,8 +1,7 @@
 package cosmetics.BOGOShop;
 
 
-import cosmetics.BOGOShop.filter.LoginCheckFilter;
-import cosmetics.BOGOShop.intercepter.LoginCheckInterceptor;
+
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

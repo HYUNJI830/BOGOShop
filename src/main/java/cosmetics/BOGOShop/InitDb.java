@@ -43,7 +43,7 @@ public class InitDb {
 
         public void dbInit1(){
             Member member1 = createMember("userA","1234","스누피", "서울","1","1111");
-            member1.getRoles().add("USER");
+
             em.persist(member1);
 
             Category categoryM = new Category("메이크업");
@@ -66,7 +66,7 @@ public class InitDb {
         }
         public void dbInit2(){
             Member member2 = createMember("userB","5678","찰리", "부산","2","2222");
-            member2.getRoles().add("USER");
+
             em.persist(member2);
 
 
@@ -121,7 +121,6 @@ public class InitDb {
         //hairCare
         public void dbInit4(){
             Member member3 = createMember("userC","0000","샐리", "청주","3","333");
-            member3.getRoles().add("USER");
             em.persist(member3);
 
             Category categoryH = new Category("헤어케어");
