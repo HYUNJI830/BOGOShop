@@ -20,5 +20,6 @@ public class HairItem extends Item {
     private SubCategory subCategory;
 
 
+
 }
 

@@ -1,21 +1,21 @@
 package cosmetics.BOGOShop.service;
 
-import cosmetics.BOGOShop.domain.Member;
+import cosmetics.BOGOShop.dto.Login.JwtToken;
+import cosmetics.BOGOShop.dto.Login.SignInDto;
+import cosmetics.BOGOShop.dto.Login.SignUpDto;
+import cosmetics.BOGOShop.dto.member.MemberDto;
 import cosmetics.BOGOShop.repository.MemberRepositoryOLD;
-import jakarta.persistence.EntityManager;
-import org.junit.Assert;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.*;
 
 @Transactional
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public class MemberServiceTest {
 
@@ -24,37 +24,79 @@ public class MemberServiceTest {
     @Autowired
     MemberRepositoryOLD memberRepository;
     @Autowired
-    EntityManager em;
+    private PasswordEncoder passwordEncoder;
 
-    @Test
-    //@Rollback(value = false)
-    public void 회원가입() throws Exception{
-        //given(요건)
-        Member member = new Member();
-        member.setName("Lee");
+    private SignUpDto signUpDto;
+    private SignInDto signInDto;
 
-        //when(조건)
-        Long saveId = memberService.join(member);
+    @BeforeEach
+    public void setUp() {
+        signUpDto = new SignUpDto();
+        signUpDto.setUserId("testUser");
+        signUpDto.setPassword("testPassword");
 
-        //then(결과)
-        //em.flush();
-        Assert.assertEquals(member,memberRepository.findOne(saveId));
+        signInDto = new SignInDto();
+        signInDto.setUserId("testUser");
+        signInDto.setPassword("testPassword");
     }
 
-    @Test(expected = IllegalStateException.class)
-    //@Rollback(value = false)
-    public void 중복_회원_예외() throws Exception{
-        //given(요건)
-        Member member1 = new Member();
-        member1.setName("Lee");
+    @Test
+    public void 회원가입() {
+        // given
+        // 회원가입 DTO 생성은 setUp()에서 미리 수행됨
 
-        Member member2 = new Member();
-        member2.setName("Lee");
+        // when
+        MemberDto savedMemberDto = memberService.signUp(signUpDto);
 
-        //when(조건)
-        memberService.join(member1);
-        memberService.join(member2); //예외가 발생
-        //then(결과)
-        fail("예외가 발생해야 한다.");
+        // then
+        assertNotNull(savedMemberDto);
+        assertEquals(signUpDto.getUserId(), savedMemberDto.getUserId());
+        //assertTrue(passwordEncoder.matches(signUpDto.getPassword(), savedMemberDto.getPassword()));
+    }
+
+    @Test
+    public void 회원가입_중복아이디_예외() {
+        // given
+        memberService.signUp(signUpDto);
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            memberService.signUp(signUpDto);
+        });
+    }
+
+    @Test
+    public void 로그인() {
+        // given
+        memberService.signUp(signUpDto);
+
+        // when
+        JwtToken jwtToken = memberService.signIn(signInDto.getUserId(), signInDto.getPassword());
+
+        // then
+        assertNotNull(jwtToken);
+    }
+
+    @Test
+    public void 로그인_존재하지않는ID_예외() {
+        // given
+        String nonExistentUserId = "nonExistentUser";
+
+        // when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            memberService.signIn(nonExistentUserId, signInDto.getPassword());
+        });
+    }
+
+    @Test
+    public void 로그인_잘못된비밀번호_예외() {
+        // given
+        memberService.signUp(signUpDto);
+        String wrongPassword = "wrongPassword";
+
+        // when & then
+        assertThrows(BadCredentialsException.class, () -> {
+            memberService.signIn(signUpDto.getUserId(), wrongPassword);
+        });
     }
 }

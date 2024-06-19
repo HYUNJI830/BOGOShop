@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/members/sign-up","/members/sign-in").permitAll()// 로그인 엔드포인트는 누구나 접근 가능
+                        .requestMatchers("/members/sign-up","/members/sign-in","/api/item").permitAll()// 로그인 엔드포인트는 누구나 접근 가능
                         .requestMatchers("/members/user").hasRole("USER")  // "/members/test"는 USER 권한이 필요
                         .anyRequest().authenticated()  // 그 외의 모든 요청은 인증 필요
                 )
@@ -55,7 +55,6 @@ public class SecurityConfig {
         // BCrypt Encoder 사용
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 
 
 }

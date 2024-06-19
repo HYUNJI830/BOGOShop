@@ -75,7 +75,6 @@ public class JwtTokenProvider {
             throw  new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
         //클레임에서 권한 정보 가져오기
-        //Collection<? extends GrantedAuthority> > 권한 정보를 다양한 타입의 객체로 처리하기 위해
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("auth").toString().split(","))//토큰의 클레임에서 권한 정보를 가져옴, auth 클레임은 토큰에 저장된 권한 정보를 나타냄
                 .map(SimpleGrantedAuthority::new) //가져온 권한 정보를 SimpleGrantedAuthority 객체로 변환하여 컬렉션에 추가

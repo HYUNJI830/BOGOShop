@@ -95,7 +95,7 @@ public class MemberService {
         if(!isExistUserId.isPresent()){
             throw new IllegalArgumentException("존재하지 않는 ID 입니다.");
         }
-        // 1. username + password 를 기반으로 Authentication 객체 생성
+        // 1. userID + password 를 기반으로 Authentication 객체 생성
         // 이때 authentication 은 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password);
 

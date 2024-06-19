@@ -15,6 +15,7 @@ import java.util.List;
 public class MemberDto {
 
     private String userId; //회원 아이디
+    private String password;// 테스트용
 
     private String name;
     private Long age;
@@ -24,6 +25,7 @@ public class MemberDto {
 
     public MemberDto(Member member){
         userId = member.getUserId();
+        password = member.getPassword();
         name = member.getName();
         age = member.getAge();
         phone = member.getPhone();
@@ -33,6 +35,7 @@ public class MemberDto {
     static public MemberDto toDto(Member member){
         return MemberDto.builder()
                 .userId(member.getUserId())
+                .password(member.getPassword()) // 패스워드 추가
                 .name(member.getName())
                 .age(member.getAge())
                 .phone(member.getPhone())

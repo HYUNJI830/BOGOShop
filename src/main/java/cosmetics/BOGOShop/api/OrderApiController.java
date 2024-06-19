@@ -22,7 +22,6 @@ public class OrderApiController {
     private final OrderService orderService;
     private final OrderQuerydslRepository orderQuerydslRepository;
 
-
     /**
      * 주문생성
      */
@@ -75,6 +74,5 @@ public class OrderApiController {
     public void cancelOrder(@RequestBody @Valid OrderRequest request){
         orderService.cancelOrder(request.getOrderId());
     }
-
 
 }

@@ -19,10 +19,6 @@ public  abstract class Item {
     @Column(name = "item_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="category_id") //fk
-//    private Category category;
-
     @Column(name = "item_name")
     private String name;
 
