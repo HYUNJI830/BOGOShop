@@ -1,6 +1,7 @@
 package cosmetics.BOGOShop.dto.item;
 
 import com.querydsl.core.annotations.QueryProjection;
+import cosmetics.BOGOShop.domain.item.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ public class ItemDto {
     private Long itemId;
     private String itemName;
     private int price;
+    private int stockQuantity;
 
     //카테고리
     private Long categoryId;
@@ -20,14 +22,17 @@ public class ItemDto {
     private String subCategoryName;
 
     @QueryProjection
-    public ItemDto(Long itemId, String itemName,int price ,Long categoryId, String categoryName, Long subCategoryId, String subCategoryName) {
+    public ItemDto(Long itemId, String itemName,int price ,int stockQuantity ,Long categoryId, String categoryName, Long subCategoryId, String subCategoryName) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.price = price;
+        this.stockQuantity = stockQuantity;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.subCategoryId = subCategoryId;
         this.subCategoryName = subCategoryName;
     }
 
+    public ItemDto(Item item) {
+    }
 }

@@ -50,7 +50,7 @@ public class ItemController {
      */
     @GetMapping(value="/items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model){
-        Makeup item = (Makeup) itemService.findOne(itemId);
+        Makeup item = (Makeup) itemService.find(itemId);
         MakeupForm form = new MakeupForm();
 
         form.setId(item.getId());
@@ -66,20 +66,20 @@ public class ItemController {
     /**
      * 상품 수정, 권장 코드
      */
-    @PostMapping(value = "/items/{itemsId}/edit")
-    public String updateItem(@PathVariable Long itemsId,@ModelAttribute("form")MakeupForm form){
-
-        itemService.updateItem(itemsId,form.getName(), form.getPrice(), form.getStockQuantity());
-//        Makeup makeup = new Makeup();
-//        makeup.setId(form.getId());
-//        makeup.setName(form.getName());
-//        makeup.setPrice(form.getPrice());
-//        makeup.setStockQuantity(form.getStockQuantity());
-//        makeup.setMakeupCategory(form.getMakeupCategory());
-//        makeup.setBrandName(form.getBrandName());
-
-        //itemService.saveItem(makeup);
-        return "redirect:/items";
-    }
+//    @PostMapping(value = "/items/{itemsId}/edit")
+//    public String updateItem(@PathVariable Long itemsId,@ModelAttribute("form")MakeupForm form){
+//
+//        itemService.updateItem(itemsId,form.getName(), form.getPrice(), form.getStockQuantity());
+////        Makeup makeup = new Makeup();
+////        makeup.setId(form.getId());
+////        makeup.setName(form.getName());
+////        makeup.setPrice(form.getPrice());
+////        makeup.setStockQuantity(form.getStockQuantity());
+////        makeup.setMakeupCategory(form.getMakeupCategory());
+////        makeup.setBrandName(form.getBrandName());
+//
+//        //itemService.saveItem(makeup);
+//        return "redirect:/items";
+//    }
 
 }

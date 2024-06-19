@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SubCategoryRepository extends JpaRepository<SubCategory, String> {
 
-    List<SubCategory> findByName(String name);
+    SubCategory findByName(String name);
 }

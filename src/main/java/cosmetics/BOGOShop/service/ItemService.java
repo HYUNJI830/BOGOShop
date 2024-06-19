@@ -1,6 +1,8 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.item.Item;
+import cosmetics.BOGOShop.dto.Result;
+import cosmetics.BOGOShop.dto.item.ItemDto;
 import cosmetics.BOGOShop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,7 @@ public class ItemService {
         return itemRepository.findALl();
     }
 
-    public Item findOne(Long itemId){
+    public Item find(Long itemId){
         return itemRepository.findOne(itemId);
     }
 
@@ -38,5 +40,9 @@ public class ItemService {
         item.setName(name);
         item.setPrice(price);
         item.setStockQuantity(stockQuantity);
+    }
+
+    public List<ItemDto> searchByCategory(Long categoryId) {
+        return itemRepository.searchByCategory(categoryId);
     }
 }

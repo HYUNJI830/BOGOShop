@@ -71,13 +71,6 @@ public class CategoryApiController {
         Long subCategoryId = categoryService.addSubCategory(subCategory);
         return subCategoryId;
     }
-    //카테고리별 아이템 찾기
-    @GetMapping("/api/items")
-    public List<ItemDto> searchItems(@RequestParam(required = false) Long categoryId){
-        return bodyItemRepository.searchItems(categoryId);
-    }
-    //http://localhost:8080/api/items?categoryId=2
-
 
 
     //bodyCare 등록

@@ -51,12 +51,13 @@ public class BodyItemRepository {
                 .fetch();
     }
 
-    public List<ItemDto> searchItems(Long categoryId){
+    public List<ItemDto> searchItems(Long categoryId) {
         return queryFactory
                 .select(new QItemDto(
                         QItem.item.id,
                         QItem.item.name,
                         QItem.item.price,
+                        QItem.item.stockQuantity,
                         QCategory.category.id,
                         QCategory.category.name,
                         QSubCategory.subCategory.id,

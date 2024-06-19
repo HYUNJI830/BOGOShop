@@ -62,7 +62,7 @@ public class CategoryService {
 
     //ID로 카테고리 조회
     public Category findByID(Long categoryId){
-        return categoryRepository.findOne(categoryId);
+        return categoryRepository.findByID(categoryId);
     }
 
     /**
@@ -71,7 +71,7 @@ public class CategoryService {
 
     @Transactional
     public void update(Long id,String name){
-        Category category = categoryRepository.findOne(id);
+        Category category = categoryRepository.findByID(id);
         category.setName(name);
     }
 
