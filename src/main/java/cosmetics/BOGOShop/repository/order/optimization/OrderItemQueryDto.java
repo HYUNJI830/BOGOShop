@@ -1,6 +1,5 @@
-package cosmetics.BOGOShop.repository.order.query;
+package cosmetics.BOGOShop.repository.order.optimization;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 

@@ -2,12 +2,9 @@ package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.SubCategory;
-import cosmetics.BOGOShop.domain.item.BodyCare;
+
 
 import cosmetics.BOGOShop.repository.category.CategoryRepository;
-import cosmetics.BOGOShop.repository.order.query.OrderQuerydslRepository;
-import cosmetics.BOGOShop.repository.querydsl.BodyItemJPARepository;
-import cosmetics.BOGOShop.repository.querydsl.BodyItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,13 +40,6 @@ public class CategoryService {
     public Long addSubCategory(SubCategory subCategory){
         categoryRepository.saveSub(subCategory);
         return subCategory.getId();
-    }
-
-    //바디케어카테고리 등록
-    @Transactional
-    public Long addBodyCareCategory(BodyCare bodyCare){
-        categoryRepository.bodyCareSave(bodyCare);
-       return bodyCare.getId();
     }
 
 

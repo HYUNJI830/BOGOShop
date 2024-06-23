@@ -2,8 +2,7 @@ package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.SubCategory;
-import cosmetics.BOGOShop.domain.item.BodyCare;
-import cosmetics.BOGOShop.domain.item.BodyItem;
+
 
 import cosmetics.BOGOShop.dto.Result;
 
@@ -11,8 +10,7 @@ import cosmetics.BOGOShop.dto.category.CategoryDto;
 import cosmetics.BOGOShop.dto.category.CategoryResponse;
 import cosmetics.BOGOShop.dto.category.SubCategoryDto;
 import cosmetics.BOGOShop.dto.item.*;
-import cosmetics.BOGOShop.repository.querydsl.BodyItemJPARepository;
-import cosmetics.BOGOShop.repository.querydsl.BodyItemRepository;
+
 import cosmetics.BOGOShop.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +26,7 @@ import java.util.stream.Collectors;
 public class CategoryApiController {
 
     private final CategoryService categoryService;
-    private final BodyItemRepository bodyItemRepository;
-    private final BodyItemJPARepository bodyItemJPARepository;
+
 
     //카테고리 및 서브카테고리 조회
     @GetMapping("/api/category")
@@ -73,26 +70,5 @@ public class CategoryApiController {
     }
 
 
-    //bodyCare 등록
-    @PostMapping("/api/category/bodyCare")
-    public Long saveBodyCareCategory(@RequestBody @Valid BodyCareDto bodyCareDto){
-        BodyCare bodyCare = new BodyCare();
-        bodyCare.setName(bodyCareDto.getBodyCareName());
-        bodyCare.setCategory(bodyCareDto.getCategoryId());
-        Long bodyCareId = categoryService.addBodyCareCategory(bodyCare);
-        return bodyCareId;
-    }
-
-    //조건에 만족한 바디아이템 찾기
-    @GetMapping("/api/bodyItems")
-    public List<BodyCareItemDto> searchBodyItems(BodyItemSearchCondition searchCondition){
-        return bodyItemRepository.search(searchCondition);
-    }
-
-    //페이징
-    @GetMapping("/api/page/bodyItems")
-    public Page<BodyCareItemDto> pageBodyItems(BodyItemSearchCondition searchCondition, Pageable pageable){
-        return  bodyItemJPARepository.searchPageSimple(searchCondition,pageable);
-    }
 
 }

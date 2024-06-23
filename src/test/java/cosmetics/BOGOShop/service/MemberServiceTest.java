@@ -4,7 +4,8 @@ import cosmetics.BOGOShop.dto.Login.JwtToken;
 import cosmetics.BOGOShop.dto.Login.SignInDto;
 import cosmetics.BOGOShop.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.MemberDto;
-import cosmetics.BOGOShop.repository.MemberRepositoryOLD;
+import cosmetics.BOGOShop.repository.MemberRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class MemberServiceTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    MemberRepositoryOLD memberRepository;
+    MemberRepository memberRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

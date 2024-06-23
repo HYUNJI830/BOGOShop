@@ -1,6 +1,6 @@
 package cosmetics.BOGOShop.api;
 
-import cosmetics.BOGOShop.aop.LoginCheck;
+
 import cosmetics.BOGOShop.domain.MemberStatus;
 import cosmetics.BOGOShop.dto.Login.LoginRequest;
 import cosmetics.BOGOShop.dto.Login.LoginResponse;

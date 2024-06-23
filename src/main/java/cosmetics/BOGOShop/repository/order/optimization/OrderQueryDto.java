@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.repository.order.query;
+package cosmetics.BOGOShop.repository.order.optimization;
 
 import com.querydsl.core.annotations.QueryProjection;
 import cosmetics.BOGOShop.domain.Address;

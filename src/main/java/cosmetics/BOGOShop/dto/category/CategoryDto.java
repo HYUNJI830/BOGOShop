@@ -1,8 +1,7 @@
 package cosmetics.BOGOShop.dto.category;
 
 import cosmetics.BOGOShop.domain.Category;
-import cosmetics.BOGOShop.domain.SubCategory;
-import cosmetics.BOGOShop.dto.item.BodyCareDto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

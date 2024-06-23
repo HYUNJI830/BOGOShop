@@ -16,7 +16,7 @@ public class LoginMemberDto {
     private String userId;
     private String password;
 
-    private boolean isAdmin; //로직 만들어야함 status가 ADMIN이면 true
+    private boolean isAdmin;
     private MemberStatus status;
 
 
