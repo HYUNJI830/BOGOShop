@@ -1,10 +1,13 @@
 package cosmetics.BOGOShop.dto.member;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.Member;
+import cosmetics.BOGOShop.domain.Role;
 import jakarta.persistence.Embedded;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,8 +23,16 @@ public class MemberDto {
     private String name;
     private Long age;
     private String phone;
+
     @Embedded
     private Address address; //주소
+
+    @JsonProperty("roles")
+    private List<Role> roles = new ArrayList<>();
+
+    private boolean isAdmin; //운영자 여부
+
+
 
     public MemberDto(Member member){
         userId = member.getUserId();
@@ -30,6 +41,8 @@ public class MemberDto {
         age = member.getAge();
         phone = member.getPhone();
         address = member.getAddress();
+        roles = member.getRoles();
+        isAdmin = member.isAdmin();
     }
 
     static public MemberDto toDto(Member member){
@@ -40,6 +53,8 @@ public class MemberDto {
                 .age(member.getAge())
                 .phone(member.getPhone())
                 .address(member.getAddress())
+                .roles(member.getRoles())
+                .isAdmin(member.isAdmin())
                 .build();
     }
     public Member toEntity(){
@@ -49,6 +64,8 @@ public class MemberDto {
                 .age(age)
                 .phone(phone)
                 .address(address)
+                .roles(roles)
+                .isAdmin(isAdmin)
                 .build();
     }
 

@@ -1,8 +1,8 @@
 package cosmetics.BOGOShop.service;
 
-import cosmetics.BOGOShop.dto.Login.JwtToken;
-import cosmetics.BOGOShop.dto.Login.SignInDto;
-import cosmetics.BOGOShop.dto.Login.SignUpDto;
+import cosmetics.BOGOShop.jwt.dto.JwtToken;
+import cosmetics.BOGOShop.login.dto.Login.SignInDto;
+import cosmetics.BOGOShop.login.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.MemberDto;
 import cosmetics.BOGOShop.repository.MemberRepository;
 

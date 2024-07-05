@@ -1,7 +1,7 @@
-package cosmetics.BOGOShop.service;
+package cosmetics.BOGOShop.login.service;
 
 import cosmetics.BOGOShop.domain.Member;
-import cosmetics.BOGOShop.dto.Login.LoginMemberDto;
+import cosmetics.BOGOShop.login.dto.Login.LoginMemberDto;
 import cosmetics.BOGOShop.repository.MemberRepository;
 import cosmetics.BOGOShop.utils.SHA256Util;
 import lombok.RequiredArgsConstructor;

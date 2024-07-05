@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.dto.Login;
+package cosmetics.BOGOShop.login.dto.Login;
 
 import com.querydsl.core.annotations.QueryProjection;
 import cosmetics.BOGOShop.domain.MemberStatus;

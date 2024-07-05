@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.dto.Login;
+package cosmetics.BOGOShop.login.dto.Login;
 
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.Member;
@@ -29,8 +29,6 @@ public class SignUpDto {
 
     private boolean isAdmin; //운영자 여부
 
-    private MemberStatus status;// GUEST, MEMBER ,ADMIN
-
     private Address address; //주소
 
     private List<Role> roles = Collections.singletonList(Role.USER);
@@ -44,7 +42,6 @@ public class SignUpDto {
                 .age(age)
                 .phone(phone)
                 .isAdmin(isAdmin)
-                .status(status)
                 .address(address)
                 .roles(roles)
                 .build();

@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.service;
+package cosmetics.BOGOShop.jwt.service;
 
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.repository.MemberRepository;

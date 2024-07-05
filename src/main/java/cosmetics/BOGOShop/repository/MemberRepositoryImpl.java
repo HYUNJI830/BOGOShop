@@ -3,9 +3,8 @@ package cosmetics.BOGOShop.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.QMember;
-import cosmetics.BOGOShop.dto.Login.LoginMemberDto;
-
-import cosmetics.BOGOShop.dto.Login.QLoginMemberDto;
+import cosmetics.BOGOShop.login.dto.Login.LoginMemberDto;
+import cosmetics.BOGOShop.login.dto.Login.QLoginMemberDto;
 import jakarta.persistence.EntityManager;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {

@@ -2,12 +2,13 @@ package cosmetics.BOGOShop.api;
 
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.dto.*;
-import cosmetics.BOGOShop.dto.Login.JwtToken;
-import cosmetics.BOGOShop.dto.Login.SignInDto;
-import cosmetics.BOGOShop.dto.Login.SignUpDto;
+import cosmetics.BOGOShop.jwt.dto.JwtToken;
+import cosmetics.BOGOShop.login.dto.Login.SignInDto;
+import cosmetics.BOGOShop.login.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.*;
 import cosmetics.BOGOShop.service.MemberService;
 import cosmetics.BOGOShop.utils.SecurityUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,14 +71,16 @@ public class MemberApiController {
         return jwtToken;
     }
 
-    @PostMapping("/members/user")
+
+    @PostMapping("/members/admin")
     public String loginUser() {
         return SecurityUtil.getCurrentLoginUserId();
     }
 
     @PostMapping("/members/logout")
-    public ResponseEntity<MemberDto> logout(){
-        return null;
+    public String logout(HttpServletRequest request, Principal principal){
+        memberService.logout(request,principal.getName());
+        return "success";
     }
 
 }

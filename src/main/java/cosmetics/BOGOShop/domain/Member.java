@@ -50,6 +50,7 @@ public class Member implements UserDetails {
     //==비즈니스 로직==//
     public boolean isAdmin(MemberStatus status){
         if(status == MemberStatus.ADMIN){
+
             return isAdmin = true;
         }
         return isAdmin = false;

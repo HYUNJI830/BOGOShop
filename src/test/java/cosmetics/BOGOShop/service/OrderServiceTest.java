@@ -3,7 +3,7 @@ package cosmetics.BOGOShop.service;
 import cosmetics.BOGOShop.domain.*;
 import cosmetics.BOGOShop.domain.item.Item;
 import cosmetics.BOGOShop.domain.item.Makeup;
-import cosmetics.BOGOShop.exception.NotEnoughStockException;
+import cosmetics.BOGOShop.jwt.exception.NotEnoughStockException;
 import cosmetics.BOGOShop.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.exception;
+package cosmetics.BOGOShop.jwt.exception;
 
 public class NotEnoughStockException extends RuntimeException {
 

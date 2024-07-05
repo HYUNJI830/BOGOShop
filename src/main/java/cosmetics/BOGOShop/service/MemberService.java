@@ -1,23 +1,24 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Member;
-import cosmetics.BOGOShop.dto.Login.JwtToken;
-import cosmetics.BOGOShop.dto.Login.SignUpDto;
+import cosmetics.BOGOShop.jwt.dto.JwtToken;
+import cosmetics.BOGOShop.login.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.MemberDto;
-import cosmetics.BOGOShop.provider.JwtTokenProvider;
+import cosmetics.BOGOShop.jwt.config.JwtTokenProvider;
 import cosmetics.BOGOShop.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,6 +30,8 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * * 회원가입
@@ -107,6 +110,21 @@ public class MemberService {
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
 
         return jwtToken;
+    }
+    public void logout(HttpServletRequest request, String userId){
+        String accessToken = jwtTokenProvider.resolveToken(request);
+
+        Long expiration = jwtTokenProvider.getExpiration(accessToken);
+
+        redisTemplate.opsForValue().set(
+                accessToken,
+                "logout",
+                expiration,
+                TimeUnit.MILLISECONDS
+        );
+
+        //리프레쉬 토큰 삭제
+        redisTemplate.delete("RTK"+userId);
     }
 
 }

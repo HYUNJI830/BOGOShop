@@ -1,13 +1,9 @@
 package cosmetics.BOGOShop.domain.item;
 
-import cosmetics.BOGOShop.domain.Category;
-import cosmetics.BOGOShop.exception.NotEnoughStockException;
+import cosmetics.BOGOShop.jwt.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

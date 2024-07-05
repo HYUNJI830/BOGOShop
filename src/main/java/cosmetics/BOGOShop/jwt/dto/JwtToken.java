@@ -1,4 +1,4 @@
-package cosmetics.BOGOShop.dto.Login;
+package cosmetics.BOGOShop.jwt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
