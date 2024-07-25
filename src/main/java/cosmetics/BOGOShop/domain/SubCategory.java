@@ -1,5 +1,6 @@
 package cosmetics.BOGOShop.domain;
 
+import cosmetics.BOGOShop.domain.item.Item;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

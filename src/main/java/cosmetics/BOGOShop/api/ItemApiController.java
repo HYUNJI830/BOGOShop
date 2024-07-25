@@ -12,18 +12,18 @@ import cosmetics.BOGOShop.dto.item.ItemDto;
 import cosmetics.BOGOShop.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ItemApiController {
 
@@ -53,16 +53,16 @@ public class ItemApiController {
                 .collect(Collectors.toList());
         return new Result(collect.size(),collect);
     }
-
-    /**
-     * 카테고리별 아이템 찾기
-     * @param categoryId
-     * http://localhost:8080/api/items?categoryId=2
-     */
-    @GetMapping("/api/item")
-    public List<ItemDto> searchItem(@RequestParam(required = false) Long categoryId){
-        return itemService.searchByCategory(categoryId);
-    }
+//
+//    /**
+//     * 카테고리별 아이템 찾기
+//     * @param categoryId
+//     * http://localhost:8080/api/items?categoryId=2
+//     */
+//    @GetMapping("/api/item")
+//    public List<ItemDto> searchItem(@RequestParam(required = false) Long categoryId){
+//        return itemService.searchByCategory(categoryId);
+//    }
 
     /**
      * 상품 수정
@@ -73,6 +73,14 @@ public class ItemApiController {
         return ResponseEntity.ok("상품 수정 완료");
     }
 
+    /**
+     * 페이징
+     */
+//    @GetMapping("/api/itemPage")
+//    public Page<ItemDto> pageItem(Pageable pageable){
+//        return itemService.page(pageable);
+//    }
+//
 
 
 

@@ -21,6 +21,7 @@ public class RedisConfig {
     }
 
     @Bean
+    @Primary
     public RedisTemplate<String, String> redisTemplate(){
         //redisTemplate를 받아와서 set, get, delete를 사용
         RedisTemplate<String,String> redisTemplate = new RedisTemplate<>();

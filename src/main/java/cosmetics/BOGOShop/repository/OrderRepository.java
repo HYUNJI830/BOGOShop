@@ -27,28 +27,6 @@ public class OrderRepository {
         return em.find(Order.class,id);
     }
 
-    public List<Order> findAllWithItemOld() {
-        return em.createQuery(
-                        "select  o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d" +
-                                " join fetch o.orderItems oi" +
-                                " join fetch oi.item i", Order.class)
-                .setFirstResult(0)
-                .setMaxResults(2)
-                .getResultList();
-    }
-
-    public List<Order> findAllWithItem() {
-        return em.createQuery(
-                        "select o from Order o" +
-                                " join fetch o.member m" +
-                                " join fetch o.delivery d", Order.class)
-                .setFirstResult(0)
-                .setMaxResults(2)
-                .getResultList();
-    }
-
     //전체 주문 조회
     public List <Order> findAll(){
         return em.createQuery("select o from Order o",Order.class)

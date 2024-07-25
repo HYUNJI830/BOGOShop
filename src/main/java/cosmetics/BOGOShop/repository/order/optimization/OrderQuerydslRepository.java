@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.repository.order.optimization;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
 import cosmetics.BOGOShop.domain.QDelivery;
 import cosmetics.BOGOShop.domain.QMember;
 import cosmetics.BOGOShop.domain.QOrder;
@@ -55,7 +56,7 @@ public class OrderQuerydslRepository {
                         QDelivery.delivery.address
                 ))
                 .from(QOrder.order)
-                .join(QOrder.order.member,QMember.member)
+                .join(QOrder.order.member, QMember.member)
                 .join(QOrder.order.delivery,QDelivery.delivery)
                 .fetch();
     }
@@ -67,7 +68,7 @@ public class OrderQuerydslRepository {
     private List<OrderItemQueryDto> findOrderItems(Long orderId){
         return queryFactory
                 .select(new QOrderItemQueryDto(
-                        QOrderItem.orderItem.order.id,
+                       QOrderItem.orderItem.order.id,
                         QItem.item.name,
                         QOrderItem.orderItem.orderPrice,
                         QOrderItem.orderItem.count
@@ -118,6 +119,5 @@ public class OrderQuerydslRepository {
                 .collect(Collectors.groupingBy(OrderItemQueryDto::getOrderItemId));
     }
 
-    //Collectors.groupingBy : 스트림의 요소들을 그룹화함
-    //각 요소로부터 키를 추출하여 동일한 키를 가진 요소들을 하나의 그룹으로 만들어 map으로 반환
-    }
+
+}

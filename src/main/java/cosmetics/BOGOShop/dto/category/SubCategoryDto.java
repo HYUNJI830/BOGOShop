@@ -13,11 +13,6 @@ public class SubCategoryDto {
     private String subCategoryName;
     private Long categoryId;
 
-
-    public SubCategoryDto() {
-
-    }
-
     @QueryProjection
     public SubCategoryDto(SubCategory subCategory) {
         this.subCategoryId = subCategory.getId();

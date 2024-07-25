@@ -5,6 +5,8 @@ import cosmetics.BOGOShop.dto.Result;
 import cosmetics.BOGOShop.dto.item.ItemDto;
 import cosmetics.BOGOShop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,5 +46,9 @@ public class ItemService {
 
     public List<ItemDto> searchByCategory(Long categoryId) {
         return itemRepository.searchByCategory(categoryId);
+    }
+
+    public Page<ItemDto> page(Pageable pageable){
+        return itemRepository.pageItem(pageable);
     }
 }

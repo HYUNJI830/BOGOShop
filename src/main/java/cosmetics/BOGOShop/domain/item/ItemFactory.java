@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class ItemFactory {
+public class  ItemFactory {
     private final  CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
 
@@ -23,11 +23,11 @@ public class ItemFactory {
     public ItemFactory(CategoryRepository categoryRepository, SubCategoryRepository subCategoryRepository) {
         this.categoryRepository = categoryRepository;
         this.subCategoryRepository = subCategoryRepository;
-        // 여기에 새로운 Item 타입을 추가합니다.
+
         itemMap.put("헤어케어", this::createHairItem);
         itemMap.put("메이크업", this::createMakeupItem);
         itemMap.put("스킨케어",this::createSkinCareItem);
-        // 추가적인 타입을 여기에 추가할 수 있습니다.
+        // 추가적인 타입을 여기에 추가
     }
 
 
@@ -40,49 +40,83 @@ public class ItemFactory {
         }
         return itemFunction.apply(itemDto);
     }
-
-    private Item createHairItem(ItemDto itemDto) {
-        HairItem hairItem = new HairItem();
-
-        Category category = (Category) categoryRepository.findByName(itemDto.getCategoryName());
-        SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
-        hairItem.setCategory(category);
-        hairItem.setSubCategory(subCategory);
-
-        hairItem.setName(itemDto.getItemName());
-        hairItem.setPrice(itemDto.getPrice());
-        hairItem.setStockQuantity(itemDto.getStockQuantity());
-
-        return hairItem;
+    private Item createHairItem(ItemDto itemDto){
+        return initializeItem(new HairItem(),itemDto);
+    }
+    private Item createMakeupItem(ItemDto itemDto){
+        return initializeItem(new Makeup(),itemDto);
+    }
+    private Item createSkinCareItem(ItemDto itemDto){
+        return initializeItem(new SkinCare(),itemDto);
     }
 
 
-    private Item createMakeupItem(ItemDto itemDto) {
-        Makeup makeup = new Makeup();
+//    private Item createHairItem(ItemDto itemDto) {
+//        HairItem hairItem = new HairItem();
+//
+//        Category category = (Category) categoryRepository.findByName(itemDto.getCategoryName());
+//        SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
+//        hairItem.setCategory(category);
+//        hairItem.setSubCategory(subCategory);
+//
+//        hairItem.setName(itemDto.getItemName());
+//        hairItem.setPrice(itemDto.getPrice());
+//        hairItem.setStockQuantity(itemDto.getStockQuantity());
+//
+//        return hairItem;
+//    }
+//
+//
+//    private Item createMakeupItem(ItemDto itemDto) {
+//        Makeup makeup = new Makeup();
+//        Category category = categoryRepository.findByID(itemDto.getCategoryId());
+//        SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
+//        makeup.setCategory(category);
+//        makeup.setSubCategory(subCategory);
+//
+//        makeup.setName(itemDto.getItemName());
+//        makeup.setPrice(itemDto.getPrice());
+//        makeup.setStockQuantity(itemDto.getStockQuantity());
+//
+//        return makeup;
+//    }
+//
+//    private Item createSkinCareItem(ItemDto itemDto) {
+//        SkinCare skinCare = new SkinCare();
+//        Category category = categoryRepository.findByID(itemDto.getCategoryId());
+//        SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
+//        skinCare.setCategory(category);
+//        skinCare.setSubCategory(subCategory);
+//
+//        skinCare.setName(itemDto.getItemName());
+//        skinCare.setPrice(itemDto.getPrice());
+//        skinCare.setStockQuantity(itemDto.getStockQuantity());
+//
+//        return skinCare;
+//    }
+    //초기화 패턴
+    private Item initializeItem(Item item, ItemDto itemDto) {
         Category category = categoryRepository.findByID(itemDto.getCategoryId());
         SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
-        makeup.setCategory(category);
-        makeup.setSubCategory(subCategory);
 
-        makeup.setName(itemDto.getItemName());
-        makeup.setPrice(itemDto.getPrice());
-        makeup.setStockQuantity(itemDto.getStockQuantity());
+        if (item instanceof SkinCare) {
+            ((SkinCare) item).setCategory(category);
+            ((SkinCare) item).setSubCategory(subCategory);
+        } else if (item instanceof Makeup) {
+            ((Makeup) item).setCategory(category);
+            ((Makeup) item).setSubCategory(subCategory);
+        } else if (item instanceof HairItem) {
+            ((HairItem) item).setCategory(category);
+            ((HairItem) item).setSubCategory(subCategory);
+        }
 
-        return makeup;
+        item.setName(itemDto.getItemName());
+        item.setPrice(itemDto.getPrice());
+        item.setStockQuantity(itemDto.getStockQuantity());
+        item.setBrandName(itemDto.getBrandName());
+
+        return item;
     }
 
-    private Item createSkinCareItem(ItemDto itemDto) {
-        SkinCare skinCare = new SkinCare();
-        Category category = categoryRepository.findByID(itemDto.getCategoryId());
-        SubCategory subCategory = subCategoryRepository.findByName(itemDto.getSubCategoryName());
-        skinCare.setCategory(category);
-        skinCare.setSubCategory(subCategory);
-
-        skinCare.setName(itemDto.getItemName());
-        skinCare.setPrice(itemDto.getPrice());
-        skinCare.setStockQuantity(itemDto.getStockQuantity());
-
-        return skinCare;
-    }
 
 }

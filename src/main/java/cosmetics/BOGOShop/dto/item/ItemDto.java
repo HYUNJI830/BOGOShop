@@ -10,6 +10,7 @@ public class ItemDto {
     //아이템
     private Long itemId;
     private String itemName;
+    private String brandName;
     private int price;
     private int stockQuantity;
 
@@ -22,9 +23,10 @@ public class ItemDto {
     private String subCategoryName;
 
     @QueryProjection
-    public ItemDto(Long itemId, String itemName,int price ,int stockQuantity ,Long categoryId, String categoryName, Long subCategoryId, String subCategoryName) {
+    public ItemDto(Long itemId, String itemName,String brandName,int price ,int stockQuantity ,Long categoryId, String categoryName, Long subCategoryId, String subCategoryName) {
         this.itemId = itemId;
         this.itemName = itemName;
+        this.brandName = brandName;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.categoryId = categoryId;

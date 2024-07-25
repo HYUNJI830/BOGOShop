@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/*","/index.html","/members/sign-up","/members/sign-in").permitAll()// 로그인 엔드 포인트는 누구나 접근 가능
+                        .requestMatchers("/*","/index.html","/api/itemPage","/api/item","/members/sign-up","/members/sign-in").permitAll()// 로그인 엔드 포인트는 누구나 접근 가능
                         .requestMatchers("/members/user").hasRole("USER")
                         .anyRequest().authenticated()  // 그 외의 모든 요청은 인증 필요
                 )

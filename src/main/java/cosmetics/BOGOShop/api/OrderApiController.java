@@ -52,23 +52,23 @@ public class OrderApiController {
     /**
      * 주문 조회
      */
-    @GetMapping("/api/pageOld/orders")
-    public List<OrderDto> ordersPageOld(){
-        List<Order> orders = orderRepository.findAllWithItemOld();
-        List<OrderDto> result = orders.stream()
-                .map(o -> new OrderDto(o))
-                .collect(toList());
-        return result;
-    }
-
-    @GetMapping("/api/page/orders")
-    public List<OrderDto> ordersPage() {
-        List<Order> orders = orderRepository.findAllWithItem();
-        List<OrderDto> result = orders.stream()
-                .map(o -> new OrderDto(o))
-                .collect(toList());
-        return result;
-    }
+//    @GetMapping("/api/pageOld/orders")
+//    public List<OrderDto> ordersPageOld(){
+//        List<Order> orders = orderRepository.findAllWithItemOld();
+//        List<OrderDto> result = orders.stream()
+//                .map(o -> new OrderDto(o))
+//                .collect(toList());
+//        return result;
+//    }
+//
+//    @GetMapping("/api/page/orders")
+//    public List<OrderDto> ordersPage() {
+//        List<Order> orders = orderRepository.findAllWithItem();
+//        List<OrderDto> result = orders.stream()
+//                .map(o -> new OrderDto(o))
+//                .collect(toList());
+//        return result;
+//    }
     @GetMapping("/api/v4/orders")
     public List<OrderQueryDto> ordersV4(){
         return orderQueryRepository.findOrderQueryDtos();
@@ -95,5 +95,10 @@ public class OrderApiController {
     public void cancelOrder(@RequestBody @Valid OrderRequest request){
         orderService.cancelOrder(request.getOrderId());
     }
+
+    /**
+     * 페이징
+     */
+
 
 }
