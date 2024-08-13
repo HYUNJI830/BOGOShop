@@ -27,6 +27,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter  {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        // Swagger UI 관련 경로 필터링 제외
+        String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/swagger-ui/**") || requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/swagger-resources")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         //1. Request header에서 JWT 토큰 추출
         String accessToken = jwtTokenProvider.resolveToken(request); //요청 헤더에서 JWT 토큰 추출
         String refreshToken = jwtTokenProvider.resolveRefreshToken(request);

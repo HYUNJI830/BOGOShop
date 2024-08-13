@@ -8,6 +8,7 @@ import cosmetics.BOGOShop.login.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.*;
 import cosmetics.BOGOShop.service.MemberService;
 import cosmetics.BOGOShop.utils.SecurityUtil;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

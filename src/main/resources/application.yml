@@ -1,10 +1,8 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     active: local
-  data:
-    redis:
-      host : localhost
-      port : 6379
   datasource:
     url: jdbc:h2:tcp://localhost/~/BOGOShop
     username: sa
@@ -17,9 +15,8 @@ spring:
     properties:
      hibernate:
        default_batch_fetch_size: 100
-       #generate_statistics: true
- #       show_sql: true
      format_sql: true
+    open-in-view: false #영속성 컨텍스트가 뷰 렌더링 동안에도 열려 있게 하는 설정, 지연 로딩된 엔티티를 뷰 레이어에 사용할 수 있게 함
 
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyewkrqwekkeWERkdfksazblYcfPQye08f7MGEWRweVA9XkHa123456
