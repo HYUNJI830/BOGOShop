@@ -21,20 +21,15 @@ public class OrderRequest {
 
     private int count;
 
-
     private List <OrderItemDto> orderItems;
 
     public OrderRequest(Long memberId, List<OrderItemDto> orderItems) {
         this.memberId = memberId;
         this.orderItems = orderItems;
     }
-
-    //
-//
-//
-//    public OrderRequest(Order order) {
-//        orderItems = order.getOrderItems().stream()
-//                .map(orderItem -> new OrderItemDto(orderItem))
-//                .collect(Collectors.toList());
-//    }
+    public OrderRequest(Order order) {
+        orderItems = order.getOrderItems().stream()
+                .map(orderItem -> new OrderItemDto(orderItem))
+                .collect(Collectors.toList());
+    }
 }

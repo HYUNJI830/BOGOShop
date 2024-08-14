@@ -15,15 +15,14 @@ public class OrderQueryRepository {
 
     private final EntityManager em;
 
-    //정리하기
     /**
      * 컬렉션은 별도로 조회
      * Query : 루트 1번, 컬렉션 N번
      * 단건 조회에서 많이 사용하는 방식
      */
-    public List<OrderQueryDto> findOrderQueryDtos(){
+    public List<OrderQueryDto> findOrderQueryDtos(int offset, int limit){
         //루트 조회(toOne 코드를 모두 한번에 조회)
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> result = findOrders(offset,limit);
 
         //루프를 돌면서 컬렉션 추가(추가 쿼리 실행)
         result.forEach( o-> {
@@ -37,11 +36,13 @@ public class OrderQueryRepository {
     /**
      * 1:N 관계 (컬렉션)를 제외한 나머지를 한번에 조회
      */
-    private List <OrderQueryDto> findOrders(){
+    private List <OrderQueryDto> findOrders(int offset, int limit){
         return em.createQuery("select new cosmetics.BOGOShop.repository.order.optimization.OrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
                         " from Order o" +
                         " join o.member m" +
                         " join o.delivery d", OrderQueryDto.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
 
@@ -61,9 +62,9 @@ public class OrderQueryRepository {
      * Query: 루트 1번, 컬렉션 1번
      * 데이터를 한꺼번에 처리할 때 많이 사용하는 방식
      */
-    public List<OrderQueryDto> findAllByDto_optimization() {
+    public List<OrderQueryDto> findAllByDto_optimization(int offset, int limit) {
         //루트 조회(toOne 코드를 모두 한번에 조회)
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> result = findOrders(offset,limit);
 
         //orderItem 컬렉션을 MAP 한방에 조회
         Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(result));

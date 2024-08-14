@@ -31,10 +31,10 @@ public class SubCategory {
         this.category = category;
         category.getSubCategories().add(this);
     }
-    public void setCategory(Category category) {
-        this.category = category;
-        category.getSubCategories().add(this);
-    }
+//    public void setCategory(Category category) {
+//        this.category = category;
+//        category.getSubCategories().add(this);
+//    }
     public void setCategoryID(Long categoryId) {
         if (this.category == null) {
             this.category = new Category();

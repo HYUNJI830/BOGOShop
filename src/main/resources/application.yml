@@ -14,7 +14,7 @@ spring:
      ddl-auto: create #none으로 하면 기존 db 저장함
     properties:
      hibernate:
-       default_batch_fetch_size: 100
+       default_batch_fetch_size: 100 #한번의 쿼리가 발행할때, 가져올 데이터의 양>다수의 단일 조회 쿼리가 발생하는 문제 해결
      format_sql: true
     open-in-view: false #영속성 컨텍스트가 뷰 렌더링 동안에도 열려 있게 하는 설정, 지연 로딩된 엔티티를 뷰 레이어에 사용할 수 있게 함
 

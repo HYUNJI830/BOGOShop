@@ -12,6 +12,8 @@ import cosmetics.BOGOShop.dto.category.SubCategoryDto;
 import cosmetics.BOGOShop.dto.item.*;
 
 import cosmetics.BOGOShop.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,12 +25,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "카테고리 API", description = "카테고리에 대한 설명입니다.")
 public class CategoryApiController {
 
     private final CategoryService categoryService;
 
-
-    //카테고리 및 서브카테고리 조회
+    @Operation(summary = "카테고리 조회", description = "카테고리와 서브카테고리를 조회합니다.")
     @GetMapping("/api/category")
     public Result getCategory(){
         List<Category> findCategory = categoryService.findCategorys();
@@ -50,23 +52,22 @@ public class CategoryApiController {
         return list.isEmpty() ? null : list;
     }
 
+    @Operation(summary = "카테고리 등록", description = "카테고리를 등록합니다.")
     @PostMapping("/api/category")
     public CategoryResponse saveCategory(@RequestBody @Valid CategoryDto categoryDto){
-
         Category category = new Category();
         category.setName(categoryDto.getCategoryName());
-
         Long id = categoryService.join(category);
         return new CategoryResponse(id);
     }
-    //서브 카데고리 등록
+    @Operation(summary = "서브카테고리 등록", description = "서브카테고리만 등록합니다.")
     @PostMapping("/api/category/subcategory")
-    public Long saveSubCategory(@RequestBody @Valid SubCategoryDto subCategoryDto){
+    public CategoryResponse saveSubCategory(@RequestBody @Valid SubCategoryDto subCategoryDto){
         SubCategory subCategory = new SubCategory();
         subCategory.setName(subCategoryDto.getSubCategoryName());
-        subCategory.setCategoryID(subCategoryDto.getCategoryId());
+        subCategory.setCategoryID(subCategoryDto.getCategoryId()); //카테고리 등록
         Long subCategoryId = categoryService.addSubCategory(subCategory);
-        return subCategoryId;
+        return new CategoryResponse(subCategoryId);
     }
 
 

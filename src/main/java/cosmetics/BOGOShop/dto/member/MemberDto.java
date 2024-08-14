@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import cosmetics.BOGOShop.domain.Address;
 import cosmetics.BOGOShop.domain.Member;
 import cosmetics.BOGOShop.domain.Role;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Embedded;
 import lombok.*;
 
@@ -15,10 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Schema(description = "회원 정보 DTO")
 public class MemberDto {
 
     private String userId; //회원 아이디
-    private String password;// 테스트용
+    private String password;
 
     private String name;
     private Long age;

@@ -20,19 +20,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderQuerydslRepository {
 
-    private final EntityManager em;
     private final JPAQueryFactory queryFactory;
-
-
 
     /**
      * 컬렉션은 별도로 조회
      * Query : 루트 1번, 컬렉션 N번
      * 단건 조회에서 많이 사용하는 방식
      */
-    public List<OrderQueryDto> findOrderQueryDtos(){
+    public List<OrderQueryDto> findOrderQueryDtos(int offset, int limit){
         //루트 조회(toOne 코드를 모두 한번에 조회)
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> result = findOrders(offset, limit);
 
         //루프를 돌면서 컬렉션 추가(추가 쿼리 실행)
         result.forEach( o-> {
@@ -46,7 +43,7 @@ public class OrderQuerydslRepository {
     /**
      * 1:N 관계 (컬렉션)를 제외한 나머지를 한번에 조회
      */
-    private List <OrderQueryDto> findOrders(){
+    private List <OrderQueryDto> findOrders(int offset, int limit){
         return queryFactory
                 .select(new QOrderQueryDto(
                         QOrder.order.id,
@@ -58,6 +55,8 @@ public class OrderQuerydslRepository {
                 .from(QOrder.order)
                 .join(QOrder.order.member, QMember.member)
                 .join(QOrder.order.delivery,QDelivery.delivery)
+                .offset(offset) // 페이징 적용
+                .limit(limit)   // 페이징 적용
                 .fetch();
     }
 
@@ -65,7 +64,7 @@ public class OrderQuerydslRepository {
     /**
      * 1:N 관계인 orderItems 조회
      */
-    private List<OrderItemQueryDto> findOrderItems(Long orderId){
+    private List<OrderItemQueryDto> findOrderItems(Long orderIds){
         return queryFactory
                 .select(new QOrderItemQueryDto(
                        QOrderItem.orderItem.order.id,
@@ -75,7 +74,7 @@ public class OrderQuerydslRepository {
                 ))
                 .from(QOrderItem.orderItem)
                 .join(QOrderItem.orderItem.item, QItem.item)
-                .where(QOrderItem.orderItem.order.id.eq(orderId))
+                .where(QOrderItem.orderItem.order.id.eq(orderIds))
                 .fetch();
     }
 
@@ -84,9 +83,9 @@ public class OrderQuerydslRepository {
      * Query: 루트 1번, 컬렉션 1번
      * 데이터를 한꺼번에 처리할 때 많이 사용하는 방식
      */
-    public List<OrderQueryDto> findAllByDto_optimization() {
+    public List<OrderQueryDto> findAllByDto_optimization(int offset, int limit) {
         //루트 조회(toOne 코드를 모두 한번에 조회)
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> result = findOrders(offset,limit);
 
         //orderItem 컬렉션을 MAP 한방에 조회
         Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(result));
@@ -103,7 +102,7 @@ public class OrderQuerydslRepository {
                 .collect(Collectors.toList());
     }
 
-    private Map<Long,List<OrderItemQueryDto>> findOrderItemMap(List<Long> ordersIds ){
+    private Map<Long,List<OrderItemQueryDto>> findOrderItemMap(List<Long> ordersIds){
         List<OrderItemQueryDto> orderItems = queryFactory
                 .select(new QOrderItemQueryDto(
                         QOrderItem.orderItem.order.id,

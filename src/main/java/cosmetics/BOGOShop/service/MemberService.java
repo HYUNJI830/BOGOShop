@@ -1,6 +1,8 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.Member;
+import cosmetics.BOGOShop.dto.member.UpdateMemberRequest;
+import cosmetics.BOGOShop.dto.member.UpdateMemberResponse;
 import cosmetics.BOGOShop.jwt.dto.JwtToken;
 import cosmetics.BOGOShop.login.dto.Login.SignUpDto;
 import cosmetics.BOGOShop.dto.member.MemberDto;
@@ -59,17 +61,20 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member findOne(Long memberId){
-        return memberRepository.findById(memberId).get();
+    public UpdateMemberResponse findOne(Long memberId){
+        Member findmember = memberRepository.findById(memberId).get();
+        return UpdateMemberResponse.toDto(findmember);
     }
 
     /**
      * 회원 수정
      */
     @Transactional
-    public void update(Long id, String name){
+    public void update(Long id,UpdateMemberRequest request){
         Member member = memberRepository.findById(id).get();
-        member.setName(name);
+        member.setName(request.getName());
+        member.setPhone(request.getPhone());
+        member.setAddress(request.getAddress());
     }
 
     /**

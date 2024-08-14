@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("/index.html",
                                 "/swagger-resources/**",
                                 "/swagger-ui/**",
+                                "/api/orders/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/webjars/**").permitAll() // Swagger 관련 경로 허용
