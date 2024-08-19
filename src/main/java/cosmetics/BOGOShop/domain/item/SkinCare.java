@@ -10,11 +10,11 @@ import lombok.Setter;
 @DiscriminatorValue("S")
 @Getter @Setter
 public class SkinCare extends Item {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
-    private Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subCategory_id")
-    private SubCategory subCategory;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="category_id")
+//    private Category category;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "subCategory_id")
+//    private SubCategory subCategory;
 }

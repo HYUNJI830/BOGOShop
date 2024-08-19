@@ -33,7 +33,7 @@ public class CategoryApiController {
     @Operation(summary = "카테고리 조회", description = "카테고리와 서브카테고리를 조회합니다.")
     @GetMapping("/api/category")
     public Result getCategory(){
-        List<Category> findCategory = categoryService.findCategorys();
+        List<Category> findCategory = categoryService.findAll();
         List<CategoryDto> collect = findCategory.stream()
             .map(this::mapToCategoryDto)
             .collect(Collectors.toList());
@@ -44,8 +44,6 @@ public class CategoryApiController {
         List<SubCategoryDto> subCategoryDtos = category.getSubCategories().stream()
                 .map(subCategory -> new SubCategoryDto(subCategory.getId(),subCategory.getName(),category.getId()))
                 .collect(Collectors.toList());
-
-
         return new CategoryDto(category.getId(),category.getName(),getNullableList(subCategoryDtos));
     }
     private <T> List<T> getNullableList(List<T> list) {

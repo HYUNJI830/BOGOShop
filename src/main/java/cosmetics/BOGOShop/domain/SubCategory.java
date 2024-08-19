@@ -1,11 +1,15 @@
 package cosmetics.BOGOShop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cosmetics.BOGOShop.domain.item.Item;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +26,12 @@ public class SubCategory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "subCategory", fetch = FetchType.LAZY)
+//    private Item item;
+    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList<>();
 
     public SubCategory() {
     }

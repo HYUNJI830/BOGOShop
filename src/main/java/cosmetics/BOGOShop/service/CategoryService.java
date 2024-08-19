@@ -46,7 +46,7 @@ public class CategoryService {
     /**
      * 카테고리 전체 조회
      */
-    public List<Category> findCategorys(){
+    public List<Category> findAll(){
         return categoryRepository.findAll();
     }
 

@@ -42,6 +42,11 @@ public class ItemApiController implements ItemControllerDocs {
         itemService.saveItem(item);
         return ResponseEntity.ok(item.getName());
     }
+    @PostMapping("/api/item/v1")
+    public ResponseEntity<String> saveItemV1(@RequestBody @Valid ItemDto itemDto) {
+        Item registeredItem = itemService.saveItemV1(itemDto);
+        return ResponseEntity.ok(registeredItem.getName());
+    }
 
     @Operation(summary = "전체 상품 조회", description = "전체 상품을 조회 합니다.")
     @GetMapping("/api/items")
@@ -52,6 +57,13 @@ public class ItemApiController implements ItemControllerDocs {
                 .collect(Collectors.toList());
         return new Result(collect.size(),collect);
     }
+
+    @Operation(summary = "전체 상품 조회", description = "전체 상품을 조회 합니다.")
+    @GetMapping("/api/items/v1")
+    public List<ItemDto> findItemsV1(){
+        return itemService.findItemsV1();
+    }
+
 
     @Operation(summary = "카테고리별 상품 조회", description = "파라미터로 카테고리 ID를 전송하여 카테고리별 상품 리스트를 조회 합니다.")
     @Parameter(name = "categoryId", description = "조회하려는 카데고리 아이디")
@@ -68,7 +80,7 @@ public class ItemApiController implements ItemControllerDocs {
     }
 
     @Operation(summary = "상품 조회(페이징)", description = "페이징을 이용해서 상품 리스트를 조회 합니다.")
-    @GetMapping("/api/itemPage")
+    @GetMapping("/api/items/Page")
     public Page<ItemDto> pageItem(Pageable pageable){
         return itemService.page(pageable);
     }

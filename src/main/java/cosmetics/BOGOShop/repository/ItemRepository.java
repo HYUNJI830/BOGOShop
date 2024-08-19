@@ -54,6 +54,23 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public List<ItemDto> findALlV1(){
+        return queryFactory
+                .select(new QItemDto(
+                        QItem.item.id,
+                        QItem.item.name,
+                        QItem.item.brandName,
+                        QItem.item.price,
+                        QItem.item.stockQuantity,
+                        QCategory.category.id,
+                        QCategory.category.name,
+                        QSubCategory.subCategory.id,
+                        QSubCategory.subCategory.name
+                ))
+                .from(QItem.item)
+                .fetch();
+    }
+
     public List<ItemDto> searchByCategory(Long categoryId) {
                 return queryFactory
                 .select(new QItemDto(

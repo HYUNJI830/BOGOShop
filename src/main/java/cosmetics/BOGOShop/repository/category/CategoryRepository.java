@@ -2,17 +2,20 @@ package cosmetics.BOGOShop.repository.category;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.domain.QCategory;
 import cosmetics.BOGOShop.domain.SubCategory;
 
+import cosmetics.BOGOShop.dto.category.CategoryDto;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import static cosmetics.BOGOShop.domain.QCategory.category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CategoryRepository {
+public class CategoryRepository  {
 
     private final EntityManager em;
     private final JPAQueryFactory query;
@@ -28,14 +31,15 @@ public class CategoryRepository {
         em.persist(category);
     }
 
-    public Category findByID(Long id){
-        return em.find(Category.class, id);
+    //카테고리 전체 검색
+    public List <Category> findAll(){
+        return em.createQuery("select c from Category c LEFT JOIN FETCH c.subCategories", Category.class)
+                .getResultList();
     }
 
-    //카테고리 전체보기
-    public List<Category> findAll(){
-        return query.selectFrom(category)
-                .fetch();
+    //카테고리 아이디 검색
+    public Category findByID(Long id){
+        return em.find(Category.class, id);
     }
 
     //카테고리 이름 검색

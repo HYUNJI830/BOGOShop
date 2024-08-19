@@ -1,5 +1,7 @@
 package cosmetics.BOGOShop.domain.item;
 
+import cosmetics.BOGOShop.domain.Category;
+import cosmetics.BOGOShop.domain.SubCategory;
 import cosmetics.BOGOShop.jwt.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,6 +28,22 @@ public  abstract class Item {
 
     @Column(name = "item_BrandName")
     private String brandName; //브랜드 이름
+
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "item_Category")
+//    private Category category;
+//
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "item_SubCategory")
+//    private SubCategory subCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_Category")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_SubCategory")
+    private SubCategory subCategory;
 
     public Item() {
 

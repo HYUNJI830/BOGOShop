@@ -1,9 +1,12 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.item.Item;
+import cosmetics.BOGOShop.domain.item.pattern.ItemFactoryV1;
 import cosmetics.BOGOShop.dto.Result;
 import cosmetics.BOGOShop.dto.item.ItemDto;
 import cosmetics.BOGOShop.repository.ItemRepository;
+import cosmetics.BOGOShop.repository.category.CategoryRepository;
+import cosmetics.BOGOShop.repository.category.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,20 +18,27 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final ItemFactoryV1 itemFactoryV1;
 
     @Transactional
     public void saveItem(Item item){
         itemRepository.save(item);
     }
 
+    @Transactional
     public List<Item> findItems(){
         return itemRepository.findALl();
     }
 
+    @Transactional
+    public List<ItemDto> findItemsV1(){
+        return itemRepository.findALlV1();
+    }
+
+    @Transactional
     public Item find(Long itemId){
         return itemRepository.findOne(itemId);
     }
@@ -44,11 +54,18 @@ public class ItemService {
         item.setStockQuantity(stockQuantity);
     }
 
+    @Transactional
     public List<ItemDto> searchByCategory(Long categoryId) {
         return itemRepository.searchByCategory(categoryId);
     }
 
+    @Transactional
     public Page<ItemDto> page(Pageable pageable){
         return itemRepository.pageItem(pageable);
+    }
+
+    @Transactional
+    public Item saveItemV1(ItemDto itemDto){
+        return itemFactoryV1.createItem(itemDto);
     }
 }

@@ -22,6 +22,12 @@ public class ItemDto {
     private Long subCategoryId;
     private String subCategoryName;
 
+    //생성자
+    public ItemDto() {}
+
+    public ItemDto(Item item) {
+    }
+
     @QueryProjection
     public ItemDto(Long itemId, String itemName,String brandName,int price ,int stockQuantity ,Long categoryId, String categoryName, Long subCategoryId, String subCategoryName) {
         this.itemId = itemId;
@@ -35,6 +41,5 @@ public class ItemDto {
         this.subCategoryName = subCategoryName;
     }
 
-    public ItemDto(Item item) {
-    }
+
 }
