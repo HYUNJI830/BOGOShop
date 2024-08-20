@@ -41,5 +41,4 @@ public class ItemDto {
         this.subCategoryName = subCategoryName;
     }
 
-
 }

@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.repository;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import cosmetics.BOGOShop.domain.QCategory;
@@ -88,6 +89,53 @@ public class ItemRepository {
                 .where(QCategory.category.id.eq(categoryId))
                 .fetch();
     }
+    /*
+     * 동적 쿼리(상품 재고 관리)
+     */
+    public List<ItemDto> searchByCondition(Integer stockQuantity,Integer priceMin,Integer priceMax){
+
+        return queryFactory
+                .select(new QItemDto(
+                        QItem.item.id,
+                        QItem.item.name,
+                        QItem.item.brandName,
+                        QItem.item.price,
+                        QItem.item.stockQuantity,
+                        QCategory.category.id,
+                        QCategory.category.name,
+                        QSubCategory.subCategory.id,
+                        QSubCategory.subCategory.name
+                ))
+                .from(QItem.item)
+                .where(buildOrCondition(stockQuantity,priceMin,priceMax))
+                .fetch();
+    }
+
+    private BooleanExpression conditionStockQuantity(Integer stockQuantity){
+        //특정 수량 이상
+        return stockQuantity != null ? QItem.item.stockQuantity.goe(stockQuantity) : null;
+    }
+    private BooleanExpression conditionPrice(Integer priceMin, Integer priceMax) {
+       //특정 가격 이상
+        return (priceMin != null && priceMax != null) ? QItem.item.price.between(priceMin, priceMax) : null;
+    }
+
+    private BooleanExpression buildOrCondition(Integer stockQuantity, Integer priceMin, Integer priceMax) {
+        BooleanExpression stockCondition = conditionStockQuantity(stockQuantity);
+        BooleanExpression priceCondition = conditionPrice(priceMin, priceMax);
+
+        if (stockCondition != null && priceCondition != null) {
+            return stockCondition.or(priceCondition);
+        } else if (stockCondition != null) {
+            return stockCondition;
+        } else if (priceCondition != null) {
+            return priceCondition;
+        } else {
+            return null;
+        }
+    }
+
+
     /**
      *  페이징
      */
@@ -110,6 +158,8 @@ public class ItemRepository {
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
     }
+
+
 //    //커버링 인덱스를 사용한 페이징
 //    public Page<ItemDto> pageItem(Pageable pageable) {
 //        // 1) 커버링 인덱스로 대상 조회 (ID만 조회)

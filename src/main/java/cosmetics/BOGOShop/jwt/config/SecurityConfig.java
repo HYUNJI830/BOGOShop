@@ -41,9 +41,9 @@ public class SecurityConfig {
                         .requestMatchers("/index.html",
                                 "/swagger-resources/**",
                                 "/swagger-ui/**",
-                                "/api/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
+                                "/api/**",
                                 "/webjars/**").permitAll() // Swagger 관련 경로 허용
                         .requestMatchers(HttpMethod.POST,"/members/sign-up","/members/sign-in").permitAll()
                         .requestMatchers("/members/user").hasRole("USER")

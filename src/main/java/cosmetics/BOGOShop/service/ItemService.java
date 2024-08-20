@@ -60,6 +60,11 @@ public class ItemService {
     }
 
     @Transactional
+    public List<ItemDto> searchByCondition (Integer stockQuantity,Integer priceMin,Integer priceMax) {
+        return itemRepository.searchByCondition(stockQuantity,priceMin,priceMax);
+    }
+
+    @Transactional
     public Page<ItemDto> page(Pageable pageable){
         return itemRepository.pageItem(pageable);
     }

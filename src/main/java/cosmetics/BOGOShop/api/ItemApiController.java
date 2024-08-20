@@ -68,8 +68,18 @@ public class ItemApiController implements ItemControllerDocs {
     @Operation(summary = "카테고리별 상품 조회", description = "파라미터로 카테고리 ID를 전송하여 카테고리별 상품 리스트를 조회 합니다.")
     @Parameter(name = "categoryId", description = "조회하려는 카데고리 아이디")
     @GetMapping("/api/item")
-    public List<ItemDto> searchItem(@RequestParam(required = false) Long categoryId){
+    public List<ItemDto> searchItem(@RequestParam(name = "categoryId", required = false) Long categoryId){
         return itemService.searchByCategory(categoryId);
+    }
+
+    @Operation(summary = "조건별 상품 조회", description = "조건에 맞는 상품 리스트를 동적으로 조회 합니다.")
+    @Parameter(name = "stockQuantity", description = "조회하려는 상품 재고 수량")
+    @Parameter(name = "priceMin", description = "조회하려는 상품 재고 수량")
+    @Parameter(name = "priceMax", description = "조회하려는 상품 재고 수량")
+    @GetMapping("/api/item/condition")
+    public List<ItemDto> conditionItem(@RequestParam(name = "stockQuantity", required = false) Integer stockQuantity,@RequestParam(name = "priceMin", required = false)Integer priceMin,@RequestParam(name = "priceMax",required = false)Integer priceMax){
+
+        return itemService.searchByCondition(stockQuantity,priceMin,priceMax);
     }
 
     //ItemControllerDocs 구현
