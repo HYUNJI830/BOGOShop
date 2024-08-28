@@ -10,6 +10,9 @@ import lombok.Setter;
 @DiscriminatorValue("M")
 @Getter @Setter
 public class Makeup extends Item {
+    private String colorPalette; //색상
+    private String textureType; //텍스쳐
+
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="category_id")
