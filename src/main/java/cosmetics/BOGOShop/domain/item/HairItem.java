@@ -10,6 +10,9 @@ import lombok.Setter;
 @DiscriminatorValue("H")
 @Getter @Setter
 public class HairItem extends Item {
+    private String hairType; //헤어 타입
+    private String holdStrength; //고정력
+
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="category_id")

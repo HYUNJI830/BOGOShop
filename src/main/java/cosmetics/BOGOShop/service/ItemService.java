@@ -1,12 +1,9 @@
 package cosmetics.BOGOShop.service;
 
 import cosmetics.BOGOShop.domain.item.Item;
-import cosmetics.BOGOShop.domain.item.pattern.ItemFactoryV1;
-import cosmetics.BOGOShop.dto.Result;
+import cosmetics.BOGOShop.domain.item.pattern.ItemStrategy;
 import cosmetics.BOGOShop.dto.item.ItemDto;
 import cosmetics.BOGOShop.repository.ItemRepository;
-import cosmetics.BOGOShop.repository.category.CategoryRepository;
-import cosmetics.BOGOShop.repository.category.SubCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +18,7 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final ItemFactoryV1 itemFactoryV1;
+    private final ItemStrategy itemStrategy;
 
     @Transactional
     public void saveItem(Item item){
@@ -71,6 +68,6 @@ public class ItemService {
 
     @Transactional
     public Item saveItemV1(ItemDto itemDto){
-        return itemFactoryV1.createItem(itemDto);
+        return itemStrategy.createItem(itemDto);
     }
 }

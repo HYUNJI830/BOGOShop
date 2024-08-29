@@ -4,20 +4,19 @@ import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.SubCategory;
 import cosmetics.BOGOShop.domain.item.Item;
 import cosmetics.BOGOShop.dto.item.ItemDto;
-import cosmetics.BOGOShop.repository.category.CategoryRepository;
-import cosmetics.BOGOShop.repository.category.SubCategoryRepository;
 
-//공통 로직 관리 + 구체적인 전략 클래스가 상속 받아 사용
-public abstract  class AbstractItemCreation implements ItemCreationStrategy {
+//공통 로직 관리(initializeItem) + 구체적인 전략 클래스(createSpecificItem -> Strategy 중)가 상속 받아 사용
+public abstract  class DefaultItemFactory implements ItemFactory {
 
     @Override
     public Item createItem(ItemDto itemDto, Category category,SubCategory subCategory) {
-        Item item = createSpecificItem();
+        Item item = createSpecificItem(itemDto);
         return initializeItem(item, itemDto, category, subCategory);
     }
-    //하위 클래스에서 구체적인 아이템을 생성하는 메소드
-    protected abstract Item createSpecificItem();
+    //아이템에 맞는 아이템생성전략을 선택
+    protected abstract Item createSpecificItem(ItemDto itemDto);
 
+    //모든 아이템에 관한 생성 초기화
     private Item initializeItem(Item item, ItemDto itemDto,Category category , SubCategory subCategory) {
         item.setCategory(category);
         item.setSubCategory(subCategory);

@@ -2,6 +2,8 @@ package cosmetics.BOGOShop;
 
 import cosmetics.BOGOShop.domain.*;
 import cosmetics.BOGOShop.domain.item.*;
+import cosmetics.BOGOShop.domain.item.pattern.ItemStrategy;
+import cosmetics.BOGOShop.dto.item.ItemDto;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -21,11 +23,13 @@ public class InitDb {
 
     private final InitService initService;
 
+
     @PostConstruct
     public void init(){
+        //initService.dbInit();
         initService.dbInit1();
         initService.dbInit2();
-        initService.dbInit4();
+        initService.dbInit3();
     }
 
     @Component
@@ -35,9 +39,63 @@ public class InitDb {
 
         @PersistenceContext
         private final EntityManager em;
+        private final ItemStrategy itemStrategy;
 
-        //꿀팁 단축키
-        //따로 메서드로 분리하려는 코드를 드래그  + Ctrl + Alt + m > 메소드 분리
+//        public void dbInit() {
+//            int batchSize = 1000;
+//            List<Order> orders = new ArrayList<>();
+//
+//            for (int i = 0; i < 10000; i++) {
+//                Member member = createMember(i);
+//                Delivery delivery = createDelivery();
+//                OrderItem orderItem1 = createOrderItem("Item" + i + "_1");
+//                OrderItem orderItem2 = createOrderItem("Item" + i + "_2");
+//
+//                Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
+//                orders.add(order);
+//
+//                if (i > 0 && i % batchSize == 0) {
+//                    em.flush();
+//                    em.clear();
+//                }
+//            }
+//
+//            for (Order order : orders) {
+//                em.persist(order);
+//            }
+//            em.flush();
+//            em.clear();
+//        }
+//
+//        private Member createMember(int i) {
+//            Member member = new Member();
+//            member.setName("Member" + i);
+//            member.setAddress(new Address("City" + i, "Street" + i, "Zipcode" + i));
+//            em.persist(member);
+//            return member;
+//        }
+//
+//        private Delivery createDelivery() {
+//            Delivery delivery = new Delivery();
+//            delivery.setAddress(new Address("City", "Street", "Zipcode"));
+//            delivery.setStatus(DeliveryStatus.READY);
+//            em.persist(delivery);
+//            return delivery;
+//        }
+//
+//        private OrderItem createOrderItem(String itemName) {
+//            // 1. Item 생성 및 데이터 설정
+//            Item item = new Makeup();
+//            item.setName(itemName);
+//            item.setPrice(10000);
+//            item.setStockQuantity(100);
+//
+//            // 2. Item 엔티티를 영속화 (DB에 저장)
+//            em.persist(item);
+//
+//            // 3. OrderItem 생성
+//            return OrderItem.createOrderItem(item, item.getPrice(), 2);
+//        }
 
 
         public void dbInit1(){
@@ -51,9 +109,19 @@ public class InitDb {
             SubCategory subCategoryM = new SubCategory("립",categoryM);
             em.persist(subCategoryM);
 
-            Makeup makeup1 = createMakeup("센슈얼 누드 글로스",50000,100,"디올",subCategoryM.getCategory(),subCategoryM);
-            em.persist(makeup1);
+            // 3. ItemDto 생성
+            ItemDto makeupDto = ItemDto.builder()
+                    .itemName("센슈얼 누드 글로스")
+                    .price(50000)
+                    .stockQuantity(100)
+                    .brandName("디올")
+                    .categoryId(categoryM.getId())
+                    .subCategoryId(subCategoryM.getId())
+                    .build();
 
+            // 4. ItemStrategy를 통해 Item 생성 및 저장
+            Item makeup1 = itemStrategy.createItem(makeupDto);
+            em.persist(makeup1);
 
             //단품 주문
             OrderItem orderItem1 = OrderItem.createOrderItem(makeup1,50000,1);
@@ -101,7 +169,7 @@ public class InitDb {
         }
 
         //hairCare
-        public void dbInit4(){
+        public void dbInit3(){
             Member member3 = createMember("userC","0000","샐리", "청주","3","333");
             em.persist(member3);
 

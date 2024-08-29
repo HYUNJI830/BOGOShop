@@ -55,6 +55,87 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public List<ItemDto> searchByConditionEX(Integer stockQuantity, Integer priceMin, Integer priceMax) {
+
+        // 모든 조건이 없는 경우
+        if (stockQuantity == null && priceMin == null && priceMax == null) {
+            return queryFactory
+                    .select(new QItemDto(
+                            QItem.item.id,
+                            QItem.item.name,
+                            QItem.item.brandName,
+                            QItem.item.price,
+                            QItem.item.stockQuantity,
+                            QCategory.category.id,
+                            QCategory.category.name,
+                            QSubCategory.subCategory.id,
+                            QSubCategory.subCategory.name
+                    ))
+                    .from(QItem.item)
+                    .fetch();
+        }
+
+        // 수량 조건만 있는 경우
+        if (stockQuantity != null && priceMin == null && priceMax == null) {
+            return queryFactory
+                    .select(new QItemDto(
+                            QItem.item.id,
+                            QItem.item.name,
+                            QItem.item.brandName,
+                            QItem.item.price,
+                            QItem.item.stockQuantity,
+                            QCategory.category.id,
+                            QCategory.category.name,
+                            QSubCategory.subCategory.id,
+                            QSubCategory.subCategory.name
+                    ))
+                    .from(QItem.item)
+                    .where(QItem.item.stockQuantity.goe(stockQuantity))
+                    .fetch();
+        }
+
+        // 가격 조건만 있는 경우
+        if (stockQuantity == null && priceMin != null && priceMax != null) {
+            return queryFactory
+                    .select(new QItemDto(
+                            QItem.item.id,
+                            QItem.item.name,
+                            QItem.item.brandName,
+                            QItem.item.price,
+                            QItem.item.stockQuantity,
+                            QCategory.category.id,
+                            QCategory.category.name,
+                            QSubCategory.subCategory.id,
+                            QSubCategory.subCategory.name
+                    ))
+                    .from(QItem.item)
+                    .where(QItem.item.price.between(priceMin, priceMax))
+                    .fetch();
+        }
+
+        // 수량과 가격 조건이 모두 있는 경우
+        if (stockQuantity != null && priceMin != null && priceMax != null) {
+            return queryFactory
+                    .select(new QItemDto(
+                            QItem.item.id,
+                            QItem.item.name,
+                            QItem.item.brandName,
+                            QItem.item.price,
+                            QItem.item.stockQuantity,
+                            QCategory.category.id,
+                            QCategory.category.name,
+                            QSubCategory.subCategory.id,
+                            QSubCategory.subCategory.name
+                    ))
+                    .from(QItem.item)
+                    .where(QItem.item.stockQuantity.goe(stockQuantity)
+                            .or(QItem.item.price.between(priceMin, priceMax)))
+                    .fetch();
+        }
+
+        return null;
+    }
+
     public List<ItemDto> findALlV1(){
         return queryFactory
                 .select(new QItemDto(
