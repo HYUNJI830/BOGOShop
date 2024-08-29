@@ -3,9 +3,11 @@ package cosmetics.BOGOShop.dto.item;
 import com.querydsl.core.annotations.QueryProjection;
 import cosmetics.BOGOShop.domain.item.Item;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ItemDto {
     //아이템
     private Long itemId;

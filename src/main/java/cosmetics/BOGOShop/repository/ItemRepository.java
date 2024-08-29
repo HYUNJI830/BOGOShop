@@ -241,51 +241,49 @@ public class ItemRepository {
     }
 
 
-//    //커버링 인덱스를 사용한 페이징
-//    public Page<ItemDto> pageItem(Pageable pageable) {
-//        // 1) 커버링 인덱스로 대상 조회 (ID만 조회)
-//        List<Long> ids = queryFactory
-//                .select(QItem.item.id)
-//                .from(QItem.item)
-//                .orderBy(QItem.item.id.desc())
-//                .limit(pageable.getPageSize())
-//                .offset(pageable.getOffset())
-//                .fetch();
-//
-//        // 1-1) 대상이 없을 경우 추가 쿼리 수행 할 필요 없이 바로 반환
-//        if (CollectionUtils.isEmpty(ids)) {
-//            return new PageImpl<>(new ArrayList<>(), pageable, 0);
-//        }
-//
-//        // 2) 조회한 ID로 필요한 데이터 조회
-//        List<ItemDto> content = queryFactory
-//                .select(Projections.constructor(ItemDto.class,
-//                        QItem.item.id,
-//                        QItem.item.name,
-//                        QItem.item.brandName,
-//                        QItem.item.price,
-//                        QItem.item.stockQuantity,
-//                        QCategory.category.id,
-//                        QCategory.category.name,
-//                        QSubCategory.subCategory.id,
-//                        QSubCategory.subCategory.name
-//                ))
-//                .from(QItem.item)
-//                //해결해보자...아이템에 카테고리를 넣을지
-//                //아님 다른 방법을 찾을지..
-//                .leftJoin(QItem.item.category,QCategory.category)
-//                .leftJoin(QItem.item.subCategory, QSubCategory.subCategory)
-//                .where(QItem.item.id.in(ids))
-//                .orderBy(QItem.item.id.desc())
-//                .fetch();
-//
-//        // 전체 데이터 개수 조회
-//        long total = queryFactory
-//                .select(QItem.item.count())
-//                .from(QItem.item)
-//                .fetchOne();
-//
-//        return new PageImpl<>(content, pageable, total);
-//    }
+   //커버링 인덱스를 사용한 페이징
+    public Page<ItemDto> pageItemIndex(Pageable pageable) {
+        // 1) 커버링 인덱스로 대상 조회 (ID만 조회)
+        List<Long> ids = queryFactory
+                .select(QItem.item.id)
+                .from(QItem.item)
+                .orderBy(QItem.item.id.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        // 1-1) 대상이 없을 경우 추가 쿼리 수행 할 필요 없이 바로 반환
+        if (CollectionUtils.isEmpty(ids)) {
+            return new PageImpl<>(new ArrayList<>(), pageable, 0);
+        }
+
+        // 2) 조회한 ID로 필요한 데이터 조회
+        List<ItemDto> content = queryFactory
+                .select(Projections.constructor(ItemDto.class,
+                        QItem.item.id,
+                        QItem.item.name,
+                        QItem.item.brandName,
+                        QItem.item.price,
+                        QItem.item.stockQuantity,
+                        QCategory.category.id,
+                        QCategory.category.name,
+                        QSubCategory.subCategory.id,
+                        QSubCategory.subCategory.name
+                ))
+                .from(QItem.item)
+                .leftJoin(QItem.item.category,QCategory.category)
+                .leftJoin(QItem.item.subCategory, QSubCategory.subCategory)
+                .where(QItem.item.id.in(ids))
+                .orderBy(QItem.item.id.desc())
+                .fetch();
+
+        // 전체 데이터 개수 조회
+        long total = queryFactory
+                .select(QItem.item.count())
+                .from(QItem.item)
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
+    }
 
 }

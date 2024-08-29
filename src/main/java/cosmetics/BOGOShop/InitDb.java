@@ -26,10 +26,11 @@ public class InitDb {
 
     @PostConstruct
     public void init(){
-        //initService.dbInit();
         initService.dbInit1();
         initService.dbInit2();
         initService.dbInit3();
+        initService.dbInit4();
+
     }
 
     @Component
@@ -41,61 +42,42 @@ public class InitDb {
         private final EntityManager em;
         private final ItemStrategy itemStrategy;
 
-//        public void dbInit() {
-//            int batchSize = 1000;
-//            List<Order> orders = new ArrayList<>();
-//
-//            for (int i = 0; i < 10000; i++) {
-//                Member member = createMember(i);
-//                Delivery delivery = createDelivery();
-//                OrderItem orderItem1 = createOrderItem("Item" + i + "_1");
-//                OrderItem orderItem2 = createOrderItem("Item" + i + "_2");
-//
-//                Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
-//                orders.add(order);
-//
-//                if (i > 0 && i % batchSize == 0) {
-//                    em.flush();
-//                    em.clear();
-//                }
-//            }
-//
-//            for (Order order : orders) {
-//                em.persist(order);
-//            }
-//            em.flush();
-//            em.clear();
-//        }
-//
-//        private Member createMember(int i) {
-//            Member member = new Member();
-//            member.setName("Member" + i);
-//            member.setAddress(new Address("City" + i, "Street" + i, "Zipcode" + i));
-//            em.persist(member);
-//            return member;
-//        }
-//
-//        private Delivery createDelivery() {
-//            Delivery delivery = new Delivery();
-//            delivery.setAddress(new Address("City", "Street", "Zipcode"));
-//            delivery.setStatus(DeliveryStatus.READY);
-//            em.persist(delivery);
-//            return delivery;
-//        }
-//
-//        private OrderItem createOrderItem(String itemName) {
-//            // 1. Item 생성 및 데이터 설정
-//            Item item = new Makeup();
-//            item.setName(itemName);
-//            item.setPrice(10000);
-//            item.setStockQuantity(100);
-//
-//            // 2. Item 엔티티를 영속화 (DB에 저장)
-//            em.persist(item);
-//
-//            // 3. OrderItem 생성
-//            return OrderItem.createOrderItem(item, item.getPrice(), 2);
-//        }
+        public void dbInit4() {
+            int batchSize = 1000;
+            int totalOrders = 50;
+
+            Member member4 = createMember("userD","1234","페퍼민트", "인천","4","4");
+            em.persist(member4);
+            // 3. ItemDto 생성
+            ItemDto makeupDto = ItemDto.builder()
+                    .itemName("벨벳립틴트")
+                    .price(12000)
+                    .stockQuantity(1000000)
+                    .brandName("3CE")
+                    .categoryId(1L)
+                    .subCategoryId(1L)
+                    .build();
+
+            // 4. ItemStrategy를 통해 Item 생성 및 저장
+            Item makeup4 = itemStrategy.createItem(makeupDto);
+            em.persist(makeup4);
+
+            for (int i = 0; i < totalOrders; i++) {
+
+                OrderItem orderItem = OrderItem.createOrderItem(makeup4, makeup4.getPrice(), 1);
+
+                Order order = Order.createOrder(member4,createDelivery(member4), orderItem);
+                em.persist(order);
+
+                if (i > 0 && i % batchSize == 0) {
+                    em.flush();
+                    em.clear();
+                }
+            }
+
+            em.flush();
+            em.clear();
+        }
 
 
         public void dbInit1(){
