@@ -67,6 +67,11 @@ public class ItemService {
     }
 
     @Transactional
+    public Page<ItemDto> pageIndex(Pageable pageable){
+        return itemRepository.pageItemIndex(pageable);
+    }
+
+    @Transactional
     public Item saveItemV1(ItemDto itemDto){
         return itemStrategy.createItem(itemDto);
     }

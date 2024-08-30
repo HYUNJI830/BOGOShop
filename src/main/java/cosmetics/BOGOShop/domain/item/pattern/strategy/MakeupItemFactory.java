@@ -13,14 +13,13 @@ public class MakeupItemFactory extends DefaultItemFactory {
         return 1L;
     }
     @Override
-    protected Item createSpecificItem(ItemDto itemDto) {
+    protected Item createSpecificItem() {
         Makeup makeupItem = new Makeup();
         makeupItem.setColorPalette(determineColorPalette());
         makeupItem.setTextureType(selectTextureType());
         return makeupItem;
     }
 
-    //
     private String determineColorPalette() {
         return "Spring Colors";
     }

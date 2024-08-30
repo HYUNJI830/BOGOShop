@@ -58,24 +58,24 @@ public class OrderApiController {
      */
     @Operation(summary = "주문 조회", description ="JPA 사용해서 주문을 조회합니다.")
     @GetMapping("/api/orders/v4")
-    public List<OrderQueryDto> ordersV4(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "1") int limit){
+    public List<OrderQueryDto> ordersV4(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "10000") int limit){
         return orderQueryRepository.findOrderQueryDtos(offset,limit);
     }
     @Operation(summary = "주문 조회", description ="QueryDSL 사용해서 주문을 조회합니다.")
     @GetMapping("/api/orders/v4/dsl")
-    public List<OrderQueryDto> ordersV4Dsl(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "1") int limit){
+    public List<OrderQueryDto> ordersV4Dsl(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "10000") int limit){
         return orderQuerydslRepository.findOrderQueryDtos(offset,limit);
     }
 
     @Operation(summary = "주문 조회", description ="JPA 사용해서 주문을 조회합니다.")
     @GetMapping("/api/orders/v5")
-    public List <OrderQueryDto> ordersV5(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "1") int limit){
+    public List <OrderQueryDto> ordersV5(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "10000") int limit){
         return orderQueryRepository.findAllByDto_optimization(offset,limit);
     }
 
     @Operation(summary = "주문 조회", description ="QueryDSL 사용해서 주문을 조회합니다.")
     @GetMapping("/api/orders/v5/dsl")
-    public List <OrderQueryDto> ordersV5Dsl(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "1") int limit){
+    public List <OrderQueryDto> ordersV5Dsl(@RequestParam(value = "offset",defaultValue = "0") int offset,@RequestParam(value = "limit",defaultValue = "10000") int limit){
         return orderQuerydslRepository.findAllByDto_optimization(offset,limit);
     }
 

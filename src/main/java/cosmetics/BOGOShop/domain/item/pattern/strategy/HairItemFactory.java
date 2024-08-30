@@ -13,11 +13,14 @@ public class HairItemFactory extends DefaultItemFactory {
         return 3L;
     }
     @Override
-    protected Item createSpecificItem(ItemDto itemDto) {
-        return new HairItem();
+    protected Item createSpecificItem() {
+        HairItem hairItem = new HairItem();
+        hairItem.setHairType(determineHairType());
+        return hairItem;
     }
 
     //헤어제품의 헤어타입
-
-    //헤어제
+    private String determineHairType() {
+        return "oily";
+    }
 }

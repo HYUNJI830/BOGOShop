@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter @Setter
 public class HairItem extends Item {
     private String hairType; //헤어 타입
-    private String holdStrength; //고정력
+    //private String holdStrength; //고정력
 
 
 //    @ManyToOne(fetch = FetchType.LAZY)

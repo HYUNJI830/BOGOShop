@@ -1,6 +1,6 @@
 package cosmetics.BOGOShop.api;
 
-import cosmetics.BOGOShop.controller.MakeupForm;
+
 import cosmetics.BOGOShop.document.ItemControllerDocs;
 import cosmetics.BOGOShop.domain.Category;
 import cosmetics.BOGOShop.domain.item.Item;
@@ -93,6 +93,12 @@ public class ItemApiController implements ItemControllerDocs {
     @GetMapping("/api/items/Page")
     public Page<ItemDto> pageItem(Pageable pageable){
         return itemService.page(pageable);
+    }
+
+    @Operation(summary = "상품 조회(페이징)", description = "페이징을 이용해서 상품 리스트를 조회 합니다.")
+    @GetMapping("/api/items/PageIndex")
+    public Page<ItemDto> pageItemIndex(Pageable pageable){
+        return itemService.pageIndex(pageable);
     }
 
 }

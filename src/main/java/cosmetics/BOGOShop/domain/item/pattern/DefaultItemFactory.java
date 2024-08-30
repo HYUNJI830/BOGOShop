@@ -9,15 +9,15 @@ import cosmetics.BOGOShop.dto.item.ItemDto;
 public abstract  class DefaultItemFactory implements ItemFactory {
 
     @Override
-    public Item createItem(ItemDto itemDto, Category category,SubCategory subCategory) {
-        Item item = createSpecificItem(itemDto);
+    public Item createItem(ItemDto itemDto,Category category,SubCategory subCategory) {
+        Item item = createSpecificItem();
         return initializeItem(item, itemDto, category, subCategory);
     }
     //아이템에 맞는 아이템생성전략을 선택
-    protected abstract Item createSpecificItem(ItemDto itemDto);
+    protected abstract Item createSpecificItem();
 
     //모든 아이템에 관한 생성 초기화
-    private Item initializeItem(Item item, ItemDto itemDto,Category category , SubCategory subCategory) {
+    private Item initializeItem(Item item,ItemDto itemDto,Category category,SubCategory subCategory) {
         item.setCategory(category);
         item.setSubCategory(subCategory);
         item.setName(itemDto.getItemName());

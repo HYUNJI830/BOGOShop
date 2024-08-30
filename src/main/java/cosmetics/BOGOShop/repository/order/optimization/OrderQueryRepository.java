@@ -54,7 +54,8 @@ public class OrderQueryRepository {
                 " from OrderItem oi" +
                 " join oi.item i" +
                 " where oi.order.id = : orderId", OrderItemQueryDto.class)
-                .setParameter("orderId", orderId)                .getResultList();
+                .setParameter("orderId", orderId)
+                .getResultList();
     }
 
     /**

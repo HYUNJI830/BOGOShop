@@ -2,6 +2,7 @@ package cosmetics.BOGOShop.dto.item;
 
 import com.querydsl.core.annotations.QueryProjection;
 import cosmetics.BOGOShop.domain.item.Item;
+import cosmetics.BOGOShop.domain.item.SkinCare;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class ItemDto {
     private Long categoryId;
     private String categoryName;
 
-    //서브
+    //서브카데고리
     private Long subCategoryId;
     private String subCategoryName;
 
@@ -42,5 +43,6 @@ public class ItemDto {
         this.subCategoryId = subCategoryId;
         this.subCategoryName = subCategoryName;
     }
+
 
 }

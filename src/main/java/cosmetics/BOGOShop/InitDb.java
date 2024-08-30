@@ -44,7 +44,7 @@ public class InitDb {
 
         public void dbInit4() {
             int batchSize = 1000;
-            int totalOrders = 50;
+            int totalOrders = 100;
 
             Member member4 = createMember("userD","1234","페퍼민트", "인천","4","4");
             em.persist(member4);
@@ -128,22 +128,38 @@ public class InitDb {
             em.persist(subCategoryS2);
 
 
-            SkinCare skinCare1 = createSkinCare("VT리들샷",32000,100,"VT",subCategoryS1.getCategory(),subCategoryS1);
+
+            ItemDto skinDto1 = ItemDto.builder()
+                    .itemName("VT리들샷")
+                    .price(32000)
+                    .stockQuantity(100)
+                    .brandName("VT")
+                    .categoryId(categoryS.getId())
+                    .subCategoryId(subCategoryS1.getId())
+                    .build();
+            Item skinCare1 = itemStrategy.createItem(skinDto1);
             em.persist(skinCare1);
 
-            SkinCare skinCare2 = createSkinCare("아토베어리어365크림",50400,100,"에스트라",subCategoryS2.getCategory(),subCategoryS2);
+
+            ItemDto skinDto2 = ItemDto.builder()
+                    .itemName("아토베어리어365크림")
+                    .price(50000)
+                    .stockQuantity(100)
+                    .brandName("에스트라")
+                    .categoryId(categoryS.getId())
+                    .subCategoryId(subCategoryS2.getId())
+                    .build();
+            Item skinCare2 = itemStrategy.createItem(skinDto2);
             em.persist(skinCare2);
-            SkinCare skinCare3 = createSkinCare("알로에수딩젤",100000,10,"김정문 알로에",subCategoryS1.getCategory(),subCategoryS1);
-            em.persist(skinCare3);
+
 
             //여러상품 주문
             List<Item> itemList = new ArrayList<>();
             itemList.add(skinCare1);
             itemList.add(skinCare2);
-            itemList.add(skinCare3);
 
-            List<Integer> orderPrices = Arrays.asList(skinCare1.getPrice(), skinCare2.getPrice(),skinCare3.getPrice());
-            List<Integer> counts = Arrays.asList(3,4,5);
+            List<Integer> orderPrices = Arrays.asList(skinCare1.getPrice(), skinCare2.getPrice());
+            List<Integer> counts = Arrays.asList(3,4);
             List<OrderItem> orderItems = OrderItem.createOrderItems(itemList, orderPrices, counts);
 
             Order orders = Order.createOrders(member2,createDelivery(member2),orderItems);
@@ -161,14 +177,21 @@ public class InitDb {
             SubCategory subCategoryH = new SubCategory("염색",categoryH);
             em.persist(subCategoryH);
 
-            Item hairItem = createHairItem("헬로버블",8000,50 ,"미장센",subCategoryH.getCategory(),subCategoryH);
+            ItemDto hairDto = ItemDto.builder()
+                    .itemName("퍼펙트세럼")
+                    .price(8000)
+                    .stockQuantity(1000)
+                    .brandName("미장센")
+                    .categoryId(categoryH.getId())
+                    .subCategoryId(subCategoryH.getId())
+                    .build();
+            Item hairItem = itemStrategy.createItem(hairDto);
             em.persist(hairItem);
 
             OrderItem orderHairItem = OrderItem.createOrderItem(hairItem,8000,10);
 
             Order order = Order.createOrder(member3, createDelivery(member3),orderHairItem);
             em.persist(order);
-
         }
 
 
@@ -182,41 +205,6 @@ public class InitDb {
             return member;
         }
 
-
-        private Makeup createMakeup(String name,int price,int stockQuantity,String brandName,Category category,SubCategory subCategory){
-            Makeup makeup = new Makeup();
-            makeup.setName(name);
-            makeup.setPrice(price);
-            makeup.setStockQuantity(stockQuantity);
-            makeup.setCategory(category);
-            makeup.setSubCategory(subCategory);
-            makeup.setBrandName(brandName);
-            return makeup;
-        }
-
-        private SkinCare createSkinCare(String name,int price,int stockQuantity,String brandName,Category category,SubCategory subCategory){
-            SkinCare skinCare = new SkinCare();
-            skinCare.setName(name);
-            skinCare.setPrice(price);
-            skinCare.setStockQuantity(stockQuantity);
-            skinCare.setCategory(category);
-            skinCare.setSubCategory(subCategory);
-            skinCare.setBrandName(brandName);
-
-            return skinCare;
-        }
-
-        private HairItem createHairItem(String name,int price,int stockQuantity,String brandName ,Category category,SubCategory subCategory){
-            HairItem hairItem = new HairItem();
-            hairItem.setName(name);
-            hairItem.setPrice(price);
-            hairItem.setStockQuantity(stockQuantity);
-            hairItem.setBrandName(brandName);
-            hairItem.setCategory(category);
-            hairItem.setSubCategory(subCategory);
-            hairItem.setCategory(category);
-            return hairItem;
-        }
 
         private Delivery createDelivery(Member member){
             Delivery delivery = new Delivery();

@@ -44,7 +44,12 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/api/**",
-                                "/webjars/**").permitAll() // Swagger 관련 경로 허용
+                                "/webjars/**",
+                                "/api/orders/v4",
+                                "/api/orders/v5",
+                                "/actuator/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/orders/v4").permitAll() //성능 Test
+                        .requestMatchers(HttpMethod.GET, "/api/orders/v5").permitAll() //성능 Test
                         .requestMatchers(HttpMethod.POST,"/members/sign-up","/members/sign-in").permitAll()
                         .requestMatchers("/members/user").hasRole("USER")
                         .anyRequest().authenticated()  // 그 외의 모든 요청은 인증 필요

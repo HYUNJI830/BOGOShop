@@ -1,6 +1,7 @@
 package cosmetics.BOGOShop.repository.order.optimization;
 
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import cosmetics.BOGOShop.domain.QDelivery;
@@ -8,8 +9,10 @@ import cosmetics.BOGOShop.domain.QMember;
 import cosmetics.BOGOShop.domain.QOrder;
 import cosmetics.BOGOShop.domain.QOrderItem;
 import cosmetics.BOGOShop.domain.item.QItem;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

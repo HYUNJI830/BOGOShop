@@ -14,14 +14,13 @@ public class SkinCareItemFactory extends DefaultItemFactory {
         return 2L;
     }
     @Override
-    protected Item createSpecificItem(ItemDto itemDto) {
+    protected Item createSpecificItem() {
         SkinCare skinCareItem = new SkinCare();
-        skinCareItem.setSkinType(determineSkinType(itemDto));
+        skinCareItem.setSkinType(determineSkinType());
         return skinCareItem;
     }
     //스킨케어 제품의 피부 타입 결정 메서드
-    private String determineSkinType(ItemDto itemDto){
-
+    private String determineSkinType() {
         return "normal";
     }
 
@@ -29,6 +28,5 @@ public class SkinCareItemFactory extends DefaultItemFactory {
 //    private LocalDate calculateExpirationDate(){
 //        return LocalDate.now().plusMonths(6);
 //    }
-
 
 }
